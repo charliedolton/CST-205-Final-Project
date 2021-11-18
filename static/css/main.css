@@ -1,0 +1,68 @@
+/* 
+    # file: main.css
+    # description: contains styling to be applied to templates
+    # author: Group 794
+    # date: Nov. 17, 2021
+    # notes:
+    #   - referenced:
+    #       - past assignments from CST438 Softwware Engineering and CST336 Internet Programming
+    #       - CSS Reference: https://www.w3schools.com/cssref/default.asp
+    #       - HTML Reference: https://www.w3schools.com/tags/ref_byfunc.asp
+*/
+
+header {
+    color: white;
+    background-color: #112E51;
+    padding: 20px;
+}
+
+.main {
+    margin: 10px auto;
+    width: 80%;
+}
+
+#rand-3-img-div {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#details-card {
+    margin: 20px auto;
+}
+
+/* ===== footer css ===== */
+footer {
+    text-align: center;
+    color: white;
+    background-color: #112E51; 
+    margin-top: 20px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+}
+  
+#footer-div {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+  
+#footer-disclaimer {
+    font-size: small;
+    padding: 10px;
+}
+  
+#img-csumb-logo {
+    width: 240px;
+    margin: 10px;
+}
+  
+#footer-buffer {
+    height: 125px;
+    /* background-color: green; */
+}

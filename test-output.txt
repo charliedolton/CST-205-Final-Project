@@ -1,0 +1,22 @@
+----------
+admin's favorites:
+-----
+   title: Title0
+   release year: 0000
+   description: Description0
+----------
+user1's favorites:
+-----
+   title: Title1
+   release year: 1111
+   description: Description1
+-----
+   title: Title2
+   release year: 2222
+   description: Description2
+----------
+user2's favorites:
+-----
+   title: Title2
+   release year: 2222
+   description: Description2
