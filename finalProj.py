@@ -1,5 +1,7 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
+tmdbv3api import TMDb
+import config
 # from PIL import Image
 # from image_info import image_info
 # import random
@@ -12,6 +14,12 @@ from flask_bootstrap import Bootstrap
 app = Flask(__name__)
 app.config['DEBUG'] = True
 bootstrap = Bootstrap(app)
+
+tmdb = TMDb()
+# hide API_KEY from github!
+tmdb.api_key = config.api_key
+tmdb.language = 'en'
+tmdb.debug = True
 
 @app.route("/")
 def index():
