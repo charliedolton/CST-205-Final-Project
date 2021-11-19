@@ -17,6 +17,7 @@ bootstrap = Bootstrap(app)
 
 tmdb = TMDb()
 # hide API_KEY from github!
+# config.py should be ignored on git push
 tmdb.api_key = config.api_key
 tmdb.language = 'en'
 tmdb.debug = True
