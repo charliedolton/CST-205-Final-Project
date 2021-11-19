@@ -1,5 +1,3 @@
-import pandas as pd
-
 class User:
     ids = 0
     user_id_map = {
