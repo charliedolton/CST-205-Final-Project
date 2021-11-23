@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Movie Social</title>
+        {{ bootstrap.load_css() }}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+<body>
+    <header>
+        <h1>testing for connection:</h1>
+    </header>
+
+    <label for="username">username:</label>
+    <input type="text" id="username" name="username">
+
+    <label for="kind">Account type:</label>
+    <select id="kind" name="kind">
+        <option value="critic">Critic</option>
+        <option value="audience" selected>Audience</option>  
+    </select>
+
+    <label for="about me">First name:</label>
+    <textarea name="about me" rows="10" cols="30">
+        I don't know, I just really like movies
+    </textarea>
+
+    <button type="button" name="submit" onclick="alert('Hello World!')">Submit</button>
+
+    {% include "footer.html" %}
+</body>
+</html>

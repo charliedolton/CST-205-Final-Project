@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
-tmdbv3api import TMDb
+from tmdbv3api import TMDb
 import config
 # from PIL import Image
 # from image_info import image_info
@@ -25,3 +25,7 @@ tmdb.debug = True
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/profile_edit")
+def edit_profile():
+    return render_template("edit_profile.html")
