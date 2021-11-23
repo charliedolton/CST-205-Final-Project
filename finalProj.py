@@ -26,6 +26,14 @@ tmdb.debug = True
 def index():
     return render_template("index.html")
 
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
+
 @app.route("/profile_edit")
 def edit_profile():
     return render_template("edit_profile.html")
+
+@app.route("/profile")
+def view_profile():
+    return render_template("view_profile.html")

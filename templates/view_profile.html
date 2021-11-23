@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Movie Social</title>
+        {{ bootstrap.load_css() }}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+<body>
+    <header>
+        <h1>Edit Profile:</h1>
+    </header>
+
+    <table>
+        <tr>
+            <td><h2 for="username">Username:</h2></td>
+            <td>Notflix</td>
+        </tr>
+
+        <tr>
+            <td><h2 for="account type">Account type:</h2></td>
+            <td>Audience</td>
+        </tr>
+
+        <tr>
+            <td><h2 for="about me">About me:</h2></td>
+            <td>I don't know, I just really like movies</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td><button type="button" name="edit" onclick="alert('Hello World!')">Edit</button></td>
+        </tr>
+    </table>
+
+    {% include "footer.html" %}
+</body>
+</html>
