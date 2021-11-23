@@ -7,24 +7,37 @@
     </head>
 <body>
     <header>
-        <h1>testing for connection:</h1>
+        <h1>Edit Profile:</h1>
     </header>
 
-    <label for="username">username:</label>
-    <input type="text" id="username" name="username">
+    <table>
+        <tr>
+            <td><label for="username">Username:</label></td>
+            <td><input type="text" id="username" name="username"></td>
+        </tr>
 
-    <label for="kind">Account type:</label>
-    <select id="kind" name="kind">
-        <option value="critic">Critic</option>
-        <option value="audience" selected>Audience</option>  
-    </select>
+        <tr>
+            <td><label for="kind">Account type:</label></td>
+            <td>
+                <select id="kind" name="kind">
+                    <option value="critic">Critic</option>
+                    <option value="audience" selected>Audience</option>  
+                </select>
+            </td>
+        </tr>
 
-    <label for="about me">First name:</label>
-    <textarea name="about me" rows="10" cols="30">
-        I don't know, I just really like movies
-    </textarea>
+        <tr>
+            <td><label for="about me">First name:</label></td>
+            <td>
+                <textarea name="about me" rows="10" cols="30">I don't know, I just really like movies</textarea>
+            </td>
+        </tr>
 
-    <button type="button" name="submit" onclick="alert('Hello World!')">Submit</button>
+        <tr>
+            <td></td>
+            <td><button type="button" name="submit" onclick="alert('Hello World!')">Submit</button></td>
+        </tr>
+    </table>
 
     {% include "footer.html" %}
 </body>
