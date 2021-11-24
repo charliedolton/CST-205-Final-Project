@@ -2,6 +2,9 @@ from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from tmdbv3api import TMDb
 import config
+import requests, json
+
+from user_info import user_info
 # from PIL import Image
 # from image_info import image_info
 # import random
@@ -30,9 +33,17 @@ def index():
 def signup():
     return render_template("signup.html")
 
-@app.route("/profile_edit")
-def edit_profile():
-    return render_template("edit_profile.html")
+@app.route("/profile_edit/<name>")
+def edit_profile(name):
+    #print(name)
+    for x in user_info:
+        print("name=" + x['name'])
+        #print("----")
+        if x['name'] == name.lower():
+            print("Smeckledorf!")
+            #x[id] = id
+            return render_template('edit_profile.html', user=x)
+        return render_template("error.html")
 
 @app.route("/profile")
 def view_profile():
