@@ -45,6 +45,13 @@ def edit_profile(name):
             return render_template('edit_profile.html', user=x)
     return render_template("error.html")
 
-@app.route("/profile")
-def view_profile():
-    return render_template("view_profile.html")
+@app.route("/profile/<name>")
+def view_profile(name):
+    for x in user_info:
+        print("name=" + x['name'])
+        #print("----")
+        if x['name'] == name.lower():
+            print("Smeckledorf!")
+            #x[id] = id
+            return render_template('view_profile.html', user=x)
+    return render_template("error.html")
