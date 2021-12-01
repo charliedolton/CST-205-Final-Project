@@ -43,7 +43,7 @@ def edit_profile(name):
             print("Smeckledorf!")
             #x[id] = id
             return render_template('edit_profile.html', user=x)
-        return render_template("error.html")
+    return render_template("error.html")
 
 @app.route("/profile")
 def view_profile():
