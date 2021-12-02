@@ -1,9 +1,11 @@
 class User:
     ids = 0
     id_to_user_map = {
+        # user_id: [username, password]
         "0000": ["test-user", "test-pass"]
     }
     user_to_id_map = {
+        # username: user_id
         "test-user": "0000"
     }
 
@@ -28,6 +30,13 @@ class User:
         return self.username
 
     def get_password(self):
+        return self.password
+
+    def get_user_to_id_map():
+        return User.user_to_id_map
+
+    def get_id_to_user_map():
+        return User.id_to_user_map
 
     def add_user(newUser):
         User.id_to_user_map[newUser.get_str_id()] = [newUser.get_username, newUser.get_password]
