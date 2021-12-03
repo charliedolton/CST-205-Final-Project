@@ -1,5 +1,6 @@
 ### secret API keys ###
 config.py
+secrets.py
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,flask,python,windows,jetbrains+all,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,flask,python,windows,jetbrains+all,visualstudiocode
