@@ -10,11 +10,15 @@ class User:
     # }
     id_to_user_map = {}
     user_to_id_map = {}
+    
+    current_username = None
+    current_user_id = None
+    is_authenticated = False
 
     def __init__(self, username, password):
         self.username = username
         self.password = password
-        if (username == "admin"):
+        if (username == 'admin'):
             self.id = 0
         else:
             User.ids += 1

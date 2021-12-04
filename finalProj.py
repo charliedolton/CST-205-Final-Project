@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
@@ -24,7 +24,7 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'sneak_from_the_stars_to_the_moon'
 bootstrap = Bootstrap(app)
-
+fresh = True
 
 # tmdb = TMDb()
 # # hide API_KEY from github!
@@ -66,18 +66,18 @@ class LoginForm(FlaskForm):
 
 ## pseudo db methods using json ##
 def load_users():
-    print('----- load_users() -----')
+    # print('----- load_users() -----')
     with open('id_to_user.json', 'r') as my_file:
         saved_data = json.load(my_file)
         User.id_to_user_map = saved_data
-        print(f'id_to_user_map:\n{saved_data}')
+        # print(f'id_to_user_map:\n{saved_data}')
         my_file.close()
     with open('user_to_id.json', 'r') as my_file:
         saved_data = json.load(my_file)
         User.user_to_id_map = saved_data
-        print(f'user_to_id_map:\n{saved_data}')
+        # print(f'user_to_id_map:\n{saved_data}')
         my_file.close()
-    print('----- end of load_users() -----\n')
+    # print('----- end of load_users() -----\n')
 
 def write_db():
     # https://realpython.com/lessons/serializing-json-data/
@@ -90,38 +90,63 @@ def write_db():
 
 # write_db()
 ## end of pseudo db methods using json ##
+if fresh == True:
+    load_users()
+    print('----- db check -----')
+    print(f'User.user_to_id_map:\n{User.user_to_id_map}')
+    print(f'User.id_to_user_map:\n{User.id_to_user_map}')
+    print('----- end of db check -----\n')
 
-load_users()
-print('----- db check -----')
-print(f'User.user_to_id_map:\n{User.user_to_id_map}')
-print(f'User.id_to_user_map:\n{User.id_to_user_map}')
-print('----- end of db check -----\n')
+    ## pseudo session variables ##
+    User.current_username = None
+    User.current_user_id = None
+    User.is_authenticated = False
+    ## end of pseudo session variables ##
+    fresh = False
 
 ## routes ##
-@app.route('/', defaults={'username': None})
-def index(username):
-    # splash page 
-    return render_template('index.html', username=username)
+@app.route('/')
+def index():
+    # splash page
+    if authenticate() is False:
+        print('index: No one is logged in.')
+    else:
+        print(f'index: { User.current_username } is logged in.')
+    return render_template('index.html', username=User.current_username)
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     # show login form
     form = LoginForm()
-    return render_template('login.html', form=form)
-
-## interal APIs ##
-@app.route('/user/auth', methods=['POST'])
-def auth():
-    # check for valid user
-    form = LoginForm()
     if form.validate_on_submit():
         user_id = User.user_to_id_map.get(form.username.data, ErrorMsg.bad_login)
-        if ( user_id == ErrorMsg.bad_login):
-            return ErrorMsg.bad_login
+        if (user_id == ErrorMsg.bad_login):
+            flash(ErrorMsg.bad_login, 'error')
+            return redirect(url_for('login'))
         else:
             if (User.id_to_user_map.get(user_id)[1] == form.password.data):
-                redirect(url_for('/', username=User.id_to_user_map.get(user_id)[0]))
+                username = User.id_to_user_map.get(user_id)[0]
+                User.current_username = username
+                User.current_user_id = user_id
+                User.is_authenticated = True
+
+                print(f'/user/auth: username: {User.current_username}\n')
+                return redirect(url_for('index'))
             else:
-                return ErrorMsg.bad_login
+                flash(ErrorMsg.bad_login, 'error')
+                return redirect(url_for('login'))
+
+    return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout():
+    User.current_username = None
+    User.current_user_id = None
+    User.is_authenticated = False
+    return redirect(url_for('index'))
+
+## interal APIs ##
+def authenticate():
+    return User.is_authenticated
 ## end interal APIs ##
 ## end of routes ##
