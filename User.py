@@ -1,13 +1,15 @@
 class User:
     ids = 0
-    id_to_user_map = {
-        # user_id: [username, password]
-        "0000": ["test-user", "test-pass"]
-    }
-    user_to_id_map = {
-        # username: user_id
-        "test-user": "0000"
-    }
+    # id_to_user_map = {
+    #     # user_id: [username, password]
+    #     "0000": ["test-user", "test-pass"]
+    # }
+    # user_to_id_map = {
+    #     # username: user_id
+    #     "test-user": "0000"
+    # }
+    id_to_user_map = {}
+    user_to_id_map = {}
 
     def __init__(self, username, password):
         self.username = username

@@ -10,6 +10,13 @@
         <h1>testing for connection:</h1>
     </header>
 
+    {% if username != None %}
+        <h2>hello {{ username }}!</h2>
+    {% else %}
+        <br>
+        <a href="{{ url_for('login') }}">Login</a>
+    {% endif %}
+
     {% include "footer.html" %}
 </body>
 </html>

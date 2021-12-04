@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Movie Social</title>
+        {{ bootstrap.load_css() }}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+    <body>
+        {% block content %}
+        <div class="container mb-4">
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h2 class="card-title">Login</h2>
+                    <form method="POST" action="/user/auth">
+                        {{ form.csrf_token }}
+                        {{ form.username.label }}
+                        {{ form.username(size=50) }}
+                        <br>
+                        {{ form.password.label }}
+                        {{ form.password(size=50) }}
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+
+        {% include "footer.html" %}
+    </body>
+</html>
