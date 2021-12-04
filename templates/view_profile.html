@@ -5,33 +5,33 @@
         {{ bootstrap.load_css() }}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     </head>
-<body>
-    <header>
-        <h1>Edit Profile:</h1>
-    </header>
+    <body>
+        <header>
+            <h1>Edit Profile:</h1>
+        </header>
 
-    <table>
-        <tr>
-            <td><h2 for="username">Username:</h2></td>
-            <td>{{user['name']}}</td>
-        </tr>
+        <table>
+            <tr>
+                <td><h2 for="username">Username:</h2></td>
+                <td>{{user['name']}}</td>
+            </tr>
 
-        <tr>
-            <td><h2 for="account type">Account type:</h2></td>
-            <td>{{user['kind']}}</td>
-        </tr>
+            <tr>
+                <td><h2 for="account type">Account type:</h2></td>
+                <td>{{user['kind']}}</td>
+            </tr>
 
-        <tr>
-            <td><h2 for="about me">About me:</h2></td>
-            <td>{{user['about']}}</td>
-        </tr>
+            <tr>
+                <td><h2 for="about me">About me:</h2></td>
+                <td>{{user['about']}}</td>
+            </tr>
 
-        <tr>
-            <td></td>
-            <td><button type="button" name="edit">Edit</button></td>
-        </tr>
-    </table>
+            <tr>
+                <td></td>
+                <td><button type="button" name="edit">Edit</button></td>
+            </tr>
+        </table>
 
-    {% include "footer.html" %}
-</body>
+        {% include "footer.html" %}
+    </body>
 </html>

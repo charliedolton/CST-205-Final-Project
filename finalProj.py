@@ -1,8 +1,10 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from tmdbv3api import TMDb
+from tmdbv3api import Movie
 import config
 import requests, json
+import random, math
 
 from user_info import user_info
 # from PIL import Image
@@ -25,9 +27,19 @@ tmdb.api_key = config.api_key
 tmdb.language = 'en'
 tmdb.debug = True
 
+movie = Movie()
+
 @app.route("/")
 def index():
-    return render_template("index.html")
+    id = math.ceil(random.random() * 200)
+    print(id)
+    recommendations = movie.recommendations(movie_id=id)
+    #print(recommendations)
+    movies = []
+    for a in range(3):
+        movies.append((recommendations[a].title, recommendations[a].id))
+    print(movies)
+    return render_template("index.html", titles=movies)
 
 @app.route("/signup")
 def signup():

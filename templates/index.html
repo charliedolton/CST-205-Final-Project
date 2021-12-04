@@ -10,6 +10,10 @@
         <h1>testing for connection:</h1>
     </header>
 
+    {% for title in titles %}
+    <p>{{title[0]}}, ({{title[1]}})</p>
+    {% endfor %}
+
     {% include "footer.html" %}
 </body>
 </html>
