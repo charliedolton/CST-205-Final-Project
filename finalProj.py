@@ -33,29 +33,6 @@ class LoginForm(FlaskForm):
     password = PasswordField( 'Password', validators=[DataRequired()] )
 ## end of site forms ##
 
-# ## pseudo db methods using pickle ##
-# def load_users():
-#     with open('id_to_user', 'rb') as my_file:
-#         saved_data = pickle.load(my_file)
-#         User.id_to_user_map = saved_data
-#         my_file.close()
-#     with open('user_to_id', 'rb') as my_file:
-#         saved_data = pickle.load(my_file)
-#         User.user_to_id_map = saved_data
-#         my_file.close()
-
-# def write_db():
-#     with open('id_to_user', 'wb') as my_file:
-#         pickle.dump(User.id_to_user_map, my_file)
-#         my_file.close()
-#     with open('user_to_id', 'wb') as my_file:
-#         pickle.dump(User.user_to_id_map, my_file)
-#         my_file.close()
-
-# # write_db() needs to run once so 'pickled' exists
-# write_db()
-# ## end of pseudo db methods using pickle ##
-
 ## pseudo db methods using json ##
 def load_users():
     # print('----- load_users() -----')
