@@ -5,14 +5,9 @@ from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
 from tmdbv3api import TMDb
 from config import Config
-# from secrets import secrets
 from User import User
 from ErrorMsg import ErrorMsg
 import json
-
-# from PIL import Image
-# from image_info import image_info
-# import random
 
 # for windows:
 # $env:FLASK_APP="finalProj.py"
@@ -57,10 +52,8 @@ class LoginForm(FlaskForm):
 #         pickle.dump(User.user_to_id_map, my_file)
 #         my_file.close()
 
-
 # # write_db() needs to run once so 'pickled' exists
 # write_db()
-# load_users()
 # ## end of pseudo db methods using pickle ##
 
 ## pseudo db methods using json ##
@@ -89,6 +82,7 @@ def write_db():
 
 # write_db()
 ## end of pseudo db methods using json ##
+
 if fresh == True:
     load_users()
     print('----- db check -----')
