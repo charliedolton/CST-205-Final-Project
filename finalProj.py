@@ -1,14 +1,13 @@
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
-# from tmdbv3api import TMDb
-# from config import config
+from tmdbv3api import TMDb
+from config import Config
 # from secrets import secrets
 from User import User
 from ErrorMsg import ErrorMsg
-import pickle
 import json
 
 # from PIL import Image
@@ -22,21 +21,21 @@ import json
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SECRET_KEY'] = 'sneak_from_the_stars_to_the_moon'
+app.config['SECRET_KEY'] = Config.secret
 bootstrap = Bootstrap(app)
 fresh = True
 
-# tmdb = TMDb()
-# # hide API_KEY from github!
-# # secrets.py should be ignored on git push
-# tmdb.api_key = secrets.api_key
-# tmdb.language = 'en'
-# tmdb.debug = True
+tmdb = TMDb()
+# hide API_KEY from github!
+# config.py should be ignored on git push
+tmdb.api_key = Config.api_key
+tmdb.language = 'en'
+tmdb.debug = True
 
 ## site forms ##
 class LoginForm(FlaskForm):
     username = StringField( 'Username', validators=[DataRequired()] )
-    password = StringField( 'Password', validators=[DataRequired()] )
+    password = PasswordField( 'Password', validators=[DataRequired()] )
 ## end of site forms ##
 
 # ## pseudo db methods using pickle ##
