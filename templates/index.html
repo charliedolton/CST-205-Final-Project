@@ -9,7 +9,17 @@
     <header>
         <h1>testing for connection:</h1>
     </header>
-
+    <div class="main">
+        {% block content %}
+        {% if username != None %}
+            <h2>hello {{ username }}!</h2>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+            <br>
+            <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+        {% endblock %}
+    </div>
     {% include "footer.html" %}
 </body>
 </html>

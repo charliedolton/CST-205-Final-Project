@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Movie Social</title>
+        {{ bootstrap.load_css() }}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+    <body>
+        <div class="main">
+            {% block content %}
+            <div class="container mb-4">
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Login</h2>
+                        <form method="POST" action="/login">
+                            {{ form.hidden_tag() }}
+                            {{ form.username.label }}
+                            {{ form.username(size=50) }}
+                            <br>
+                            {{ form.password.label }}
+                            {{ form.password(size=50) }}
+                            <input type="submit" value="Submit">
+                        </form>
+                        {% with error_msg = get_flashed_messages() %}
+                        {% if error_msg %}
+                        <br>
+                        <div class="error-display">
+                            <p>{{ error_msg[0] }}</p>
+                        </div>
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+        {% include "footer.html" %}
+    </body>
+</html>
