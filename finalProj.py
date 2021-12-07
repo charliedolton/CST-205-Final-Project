@@ -77,7 +77,7 @@ if fresh == True:
 ## routes ##
 @app.route('/')
 def index():
-    # splash page
+    # splash page? or general list of movies
     if authenticate() is False:
         print('index: No one is logged in.')
     else:
@@ -114,9 +114,14 @@ def logout():
     User.current_user_id = None
     User.is_authenticated = False
     return redirect(url_for('index'))
+  
+@app.route("/search")
+def search():
+    return render_template("search.html")
 
-## interal APIs ##
+## end of routes ##
+
+## internal APIs ##
 def authenticate():
     return User.is_authenticated
-## end interal APIs ##
-## end of routes ##
+## end internal APIs ##

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Movie Social</title>
+        {{ bootstrap.load_css() }}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+<body>
+    <header>
+        <h1>Search for Movies</h1>
+    </header>
+
+    <div id="search">
+        <form>
+            Title: <input type="text" id="title">
+            Director: <input type="text" id="director">
+            Year from: <input type="number" id="yearStart">
+            Year to: <input type="number" id="yearEnd">
+            Genre: <input type="text" id="genre">
+            Description: <input type="text" id="description">
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    {% include "footer.html" %}
+</body>
+</html>
