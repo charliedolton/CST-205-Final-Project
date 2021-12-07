@@ -94,7 +94,7 @@ def login():
             flash(ErrorMsg.bad_login, 'error')
             return redirect(url_for('login'))
         else:
-            if (User.id_to_user_map.get(user_id)[1] == form.password.data):
+            if (User.id_to_user_map.get(user_id)[2] == form.password.data):
                 username = User.id_to_user_map.get(user_id)[0]
                 User.current_username = username
                 User.current_user_id = user_id
