@@ -46,6 +46,11 @@ def load_users():
         User.user_to_id_map = saved_data
         # print(f'user_to_id_map:\n{saved_data}')
         my_file.close()
+    with open('user_favorites.json', 'r') as my_file:
+        saved_data = json.load(my_file)
+        Movie.user_favorites = saved_data
+        # print(f'user_to_id_map:\n{saved_data}')
+        my_file.close()
     # print('----- end of load_users() -----\n')
 
 def write_db():
@@ -56,6 +61,9 @@ def write_db():
     with open('user_to_id.json', 'w') as write_file:
         json.dump(User.user_to_id_map, write_file)
         write_file.close()
+    with open('user_favorites.json', 'w') as write_file:
+        json.dump(Movie.user_favorites, write_file)
+        write_file.close()
 
 # write_db()
 ## end of pseudo db methods using json ##
@@ -65,6 +73,7 @@ if fresh == True:
     print('----- db check -----')
     print(f'User.user_to_id_map:\n{User.user_to_id_map}')
     print(f'User.id_to_user_map:\n{User.id_to_user_map}')
+    print(f'Movie.user_favorites:\n{Movie.user_favorites}')
     print('----- end of db check -----\n')
 
     ## pseudo session variables ##
@@ -118,6 +127,12 @@ def logout():
 @app.route("/search")
 def search():
     return render_template("search.html")
+
+@app.route("/favorites/<username>")
+def favorites(username):
+    if is_authenticated():
+        user_id = user_to_id_map[username]
+        favorites = 
 
 ## end of routes ##
 

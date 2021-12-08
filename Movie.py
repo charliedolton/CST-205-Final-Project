@@ -1,7 +1,7 @@
 class Movie:
 
     user_favorites = {
-        "0000": ["12", "26", "69"]
+        "0000": []
     }
 
     def __init__(self, id, title, release_year, description):
@@ -25,5 +25,9 @@ class Movie:
     def print_info(self):
         print(f'   id: {self.id}\n    title: {self.title}\n   release year: {self.release_year}\n   description: {self.description}')
 
-    def add_favorite(str_user_id, int_movie_id):
+    def add_newUser(str_user_id):
+        Movie.user_favorites[str_user_id] = []
+
+    def add_favorite(str_user_id, movie):
+        tuple = (movie.get_id(), movie.get_title(), movie.get_description(), movie.get_release_year())
         user_favorites[str_user_id].append()
