@@ -93,7 +93,7 @@ def index():
     #print(recommendations)
     movies = []
     for a in range(3):
-        movies.append((recommendations[a].title, recommendations[a].id))
+        movies.append((recommendations[a]))
 
     # splash page? or general list of movies
     if authenticate() is False:
