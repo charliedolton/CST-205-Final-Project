@@ -1,0 +1,29 @@
+<form>
+    <table>
+        <tr>
+            <td><label for="username">Username:</label></td>
+            <td><input type="text" id="username" name="username" value="{{user['name']}}"></td>
+        </tr>
+
+        <tr>
+            <td><label for="kind">Account type:</label></td>
+            <td>
+                <select id="kind" name="kind">
+                    <option value="critic" {% if user['kind'] == 'critic' %} selected {% endif %}>Critic</option>
+                    <option value="audience" {% if user['kind'] == 'audience' %} selected {% endif %}>Audience</option>  
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label for="about me">About me:</label></td>
+            <td>
+                <textarea name="about me" rows="10" cols="30">{{user['about']}}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><button type="button" name="submit" onclick="alert('Hello World!')">Submit</button></td>
+        </tr>
+    </table>
+</form>

@@ -8,6 +8,13 @@ from config import Config
 from User import User
 from ErrorMsg import ErrorMsg
 import json
+from tmdbv3api import Movie
+import requests, random, math
+
+from user_info import user_info
+# from PIL import Image
+# from image_info import image_info
+# import random
 
 # for windows:
 # $env:FLASK_APP="finalProj.py"
@@ -26,6 +33,8 @@ tmdb = TMDb()
 tmdb.api_key = Config.api_key
 tmdb.language = 'en'
 tmdb.debug = True
+
+movie = Movie()
 
 ## site forms ##
 class LoginForm(FlaskForm):
@@ -77,12 +86,25 @@ if fresh == True:
 ## routes ##
 @app.route('/')
 def index():
+    #Get recommended movies
+    id = math.ceil(random.random() * 200)
+    print(id)
+    recommendations = movie.recommendations(movie_id=id)
+    #print(recommendations)
+    movies = []
+    for a in range(3):
+        movies.append((recommendations[a].title, recommendations[a].id))
+
     # splash page? or general list of movies
     if authenticate() is False:
         print('index: No one is logged in.')
     else:
         print(f'index: { User.current_username } is logged in.')
-    return render_template('index.html', username=User.current_username)
+    return render_template('index.html', username=User.current_username, titles=movies)
+
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -114,6 +136,23 @@ def logout():
     User.current_user_id = None
     User.is_authenticated = False
     return redirect(url_for('index'))
+
+@app.route("/profile/<name>")
+def view_profile(name):
+    for x in user_info:
+        print("name=" + x['name'])
+        if x['name'] == name.lower():
+            return render_template('view_profile.html', user=x)
+    return render_template("error.html")
+
+@app.route("/profile_edit/<name>")
+def edit_profile(name):
+    #print(name)
+    for x in user_info:
+        print("name=" + x['name'])
+        if x['name'] == name.lower():
+            return render_template('edit_profile.html', user=x)
+    return render_template("error.html")
   
 @app.route("/search")
 def search():
@@ -125,3 +164,5 @@ def search():
 def authenticate():
     return User.is_authenticated
 ## end internal APIs ##
+
+
