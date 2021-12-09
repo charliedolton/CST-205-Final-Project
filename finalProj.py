@@ -5,8 +5,9 @@ from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
 from tmdbv3api import TMDb
 from config import Config
-from User import User
-from ErrorMsg import ErrorMsg
+from user import User
+from error_msg import ErrorMsg
+from pseudo_session import PseudoSession
 import json
 
 # for windows:
@@ -77,9 +78,9 @@ if fresh == True:
     print('----- end of db check -----\n')
 
     ## pseudo session variables ##
-    User.current_username = None
-    User.current_user_id = None
-    User.is_authenticated = False
+    PseudoSession.current_username = None
+    PseudoSession.current_user_id = None
+    PseudoSession.is_authenticated = False
     ## end of pseudo session variables ##
     fresh = False
 
@@ -90,8 +91,8 @@ def index():
     if authenticate() is False:
         print('index: No one is logged in.')
     else:
-        print(f'index: { User.current_username } is logged in.')
-    return render_template('index.html', username=User.current_username)
+        print(f'index: { PseudoSession.current_username } is logged in.')
+    return render_template('index.html', username=PseudoSession.current_username)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -105,11 +106,11 @@ def login():
         else:
             if (User.id_to_user_map.get(user_id)[2] == form.password.data):
                 username = User.id_to_user_map.get(user_id)[0]
-                User.current_username = username
-                User.current_user_id = user_id
-                User.is_authenticated = True
+                PseudoSession.current_username = username
+                PseudoSession.current_user_id = user_id
+                PseudoSession.is_authenticated = True
 
-                print(f'/user/auth: username: {User.current_username}\n')
+                print(f'/user/auth: username: {PseudoSession.current_username}\n')
                 return redirect(url_for('index'))
             else:
                 flash(ErrorMsg.bad_login, 'error')
@@ -119,9 +120,9 @@ def login():
 
 @app.route('/logout')
 def logout():
-    User.current_username = None
-    User.current_user_id = None
-    User.is_authenticated = False
+    PseudoSession.current_username = None
+    PseudoSession.current_user_id = None
+    PseudoSession.is_authenticated = False
     return redirect(url_for('index'))
   
 @app.route("/search")
@@ -131,12 +132,12 @@ def search():
 @app.route("/favorites/<username>")
 def favorites(username):
     if is_authenticated():
-        user_id = user_to_id_map[username]
-        favorites = 
+        user_id = User.user_to_id_map[username]
+        favorites = Movie.user_favorites[user_id]
 
 ## end of routes ##
 
 ## internal APIs ##
 def authenticate():
-    return User.is_authenticated
+    return PseudoSession.is_authenticated
 ## end internal APIs ##
