@@ -4,7 +4,7 @@
         "email": "testuser@email.com", 
         "password": "test-pass",
         "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/",
-        "about": "I'm a test user, hello.",
+        "about": "It's a classic, that's what it is.",
         "kind": "default-kind"
     },
     "0": {
@@ -20,7 +20,7 @@
         "email": "seymor@email.com", 
         "password": "test-pass",
         "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/",
-        "about": "It's a classic, that's what it is.",
+        "about": "seymor-bio-here",
         "kind": "Critic"
     },
     "2": {
