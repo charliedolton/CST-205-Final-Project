@@ -20,6 +20,11 @@
         {% endif %}
         {% endblock %}
     </div>
+
+    {% for title in titles %}
+    <p>{{title.title}}, ({{title.id}}), ({{title.release_date}}), ({{title.overview}})</p>
+    {% endfor %}
+
     {% include "footer.html" %}
 </body>
 </html>

@@ -10,6 +10,13 @@ from movie import Movie
 from error_msg import ErrorMsg
 from pseudo_session import PseudoSession
 import json
+from tmdbv3api import Movie
+import requests, random, math
+
+from user_info import user_info
+# from PIL import Image
+# from image_info import image_info
+# import random
 
 # for windows:
 # $env:FLASK_APP="finalProj.py"
@@ -28,6 +35,8 @@ tmdb = TMDb()
 tmdb.api_key = Config.api_key
 tmdb.language = 'en'
 tmdb.debug = True
+
+movie = Movie()
 
 ## site forms ##
 class LoginForm(FlaskForm):
@@ -92,6 +101,15 @@ if fresh == True:
 ## routes ##
 @app.route('/')
 def index():
+    #Get recommended movies
+    id = math.ceil(random.random() * 200)
+    print(id)
+    recommendations = movie.recommendations(movie_id=id)
+    #print(recommendations)
+    movies = []
+    for a in range(3):
+        movies.append((recommendations[a]))
+
     # splash page? or general list of movies
     if authenticate() is False:
         print('index: No one is logged in.')
@@ -132,6 +150,23 @@ def logout():
     PseudoSession.current_user_id = None
     PseudoSession.is_authenticated = False
     return redirect(url_for('index'))
+
+@app.route("/profile/<name>")
+def view_profile(name):
+    for x in user_info:
+        print("name=" + x['name'])
+        if x['name'] == name.lower():
+            return render_template('view_profile.html', user=x)
+    return render_template("error.html")
+
+@app.route("/profile_edit/<name>")
+def edit_profile(name):
+    #print(name)
+    for x in user_info:
+        print("name=" + x['name'])
+        if x['name'] == name.lower():
+            return render_template('edit_profile.html', user=x)
+    return render_template("error.html")
   
 @app.route("/search")
 def search():
