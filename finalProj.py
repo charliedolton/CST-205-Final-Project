@@ -6,6 +6,7 @@ from flask_bootstrap import Bootstrap
 from tmdbv3api import TMDb
 from config import Config
 from user import User
+from movie import Movie
 from error_msg import ErrorMsg
 from pseudo_session import PseudoSession
 import json
@@ -30,6 +31,10 @@ tmdb.debug = True
 
 ## site forms ##
 class LoginForm(FlaskForm):
+    username = StringField( 'Username', validators=[DataRequired()] )
+    password = PasswordField( 'Password', validators=[DataRequired()] )
+
+class SignupForm(FlaskForm):
     username = StringField( 'Username', validators=[DataRequired()] )
     password = PasswordField( 'Password', validators=[DataRequired()] )
 ## end of site forms ##
@@ -93,6 +98,9 @@ def index():
     else:
         print(f'index: { PseudoSession.current_username } is logged in.')
     return render_template('index.html', username=PseudoSession.current_username)
+
+@app.route('/signup', methods=['GET','POST'])
+def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
