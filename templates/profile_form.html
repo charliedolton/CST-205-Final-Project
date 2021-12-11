@@ -2,15 +2,16 @@
     <table>
         <tr>
             <td><label for="username">Username:</label></td>
-            <td><input type="text" id="username" name="username" value="{{user['name']}}"></td>
+            <td><input type="text" id="username" name="username" value="{{user['username']}}"></td>
         </tr>
 
         <tr>
             <td><label for="kind">Account type:</label></td>
             <td>
                 <select id="kind" name="kind">
-                    <option value="critic" {% if user['kind'] == 'critic' %} selected {% endif %}>Critic</option>
-                    <option value="audience" {% if user['kind'] == 'audience' %} selected {% endif %}>Audience</option>  
+                    <option value="critic" {% if user['kind'] == 'Critic' %} selected {% endif %}>Critic</option>
+                    <option value="audience" {% if user['kind'] == 'Audience' %} selected {% endif %}>Audience</option>  
+                    <option value="test" {% if user['kind'] == 'default-kind' %} selected {% endif %}>Test</option>  
                 </select>
             </td>
         </tr>

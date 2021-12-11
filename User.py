@@ -1,12 +1,18 @@
 class User:
     ids = 0
     # id_to_user_map = {
-    #     # user_id: [username, email, password, icon_url]
-    #     "0000": ["test-user", "testuser@email.com", "test-pass", "https://www.pexels.com/photo/food-wood-people-school-3843284/ "]
+        # "9999": {
+        #     "username": "test-user",
+        #     "email": "testuser@email.com", 
+        #     "password": "test-pass",
+        #     "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/",
+        #     "about": "It's a classic, that's what it is.",
+        #     "kind": "default-kind"
+        # }
     # }
     # user_to_id_map = {
     #     # username: user_id
-    #     "test-user": "0000"
+    #     "test-user": "9999"
     # }
     id_to_user_map = {}
     user_to_id_map = {}

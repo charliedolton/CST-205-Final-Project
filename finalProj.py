@@ -10,6 +10,7 @@ from movie import Movie
 from error_msg import ErrorMsg
 from pseudo_session import PseudoSession
 import json
+import pprint
 from tmdbv3api import Movie
 import requests, random, math
 
@@ -42,6 +43,11 @@ movie = Movie()
 class LoginForm(FlaskForm):
     username = StringField( 'Username', validators=[DataRequired()] )
     password = PasswordField( 'Password', validators=[DataRequired()] )
+
+class ProfileForm(FlaskForm):
+    username = StringField( 'Username', validators=[DataRequired()] )
+    kind = StringField( 'Username', validators=[DataRequired()] )
+    about_me = StringField( 'Username', validators=[DataRequired()] )
 
 class SignupForm(FlaskForm):
     username = StringField( 'Username', validators=[DataRequired()] )
@@ -119,6 +125,7 @@ def index():
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
+    return render_template('signup.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -159,14 +166,32 @@ def view_profile(name):
             return render_template('view_profile.html', user=x)
     return render_template("error.html")
 
-@app.route("/profile_edit/<name>")
-def edit_profile(name):
-    #print(name)
-    for x in user_info:
-        print("name=" + x['name'])
-        if x['name'] == name.lower():
-            return render_template('edit_profile.html', user=x)
-    return render_template("error.html")
+@app.route("/profile_edit/<username>", methods=['GET', 'POST'])
+def edit_profile(username):
+    form = ProfileForm()
+    user_id = get_user_id(username)
+    if form.validate_on_submit:
+        #modify the form
+        with open("id_to_user.json", "r") as read_file:
+            data = json.load(read_file)
+            #data[form.name] = {
+                #"kind" : form.kind,
+                #"about" : form.about_me,
+            #}
+            print(f'data:\n{data}')
+            
+            #json.dump(data)
+            for x in data:
+                print(f'x= {x}')
+                print(data[f'{x}'])
+                return render_template('edit_profile.html', user=data[f'{x}'])
+    else:
+        for x in data:
+            print("name=" + x['username'])
+            if x['username'] == name.lower():
+                print(f'{username} wanted to edit their profile.')
+                return render_template('edit_profile.html', user=x)
+        # return render_template("error.html")
   
 @app.route("/search")
 def search():
@@ -183,4 +208,7 @@ def favorites(username):
 ## internal APIs ##
 def authenticate():
     return PseudoSession.is_authenticated
+
+def get_user_id(username):
+    return User.user_to_id_map[username]
 ## end internal APIs ##
