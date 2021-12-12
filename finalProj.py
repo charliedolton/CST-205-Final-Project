@@ -6,7 +6,7 @@ from flask_bootstrap import Bootstrap
 from tmdbv3api import TMDb
 from config import Config
 from user import User
-from movie import Movie
+from movie import MovieObj
 from error_msg import ErrorMsg
 from pseudo_session import PseudoSession
 import json
@@ -70,7 +70,7 @@ def load_users():
     with open('user_favorites.json', 'r') as my_file:
         saved_data = json.load(my_file)
         Movie.user_favorites = saved_data
-        # print(f'user_to_id_map:\n{saved_data}')
+        # print(f'user_favorites:\n{saved_data}')
         my_file.close()
     # print('----- end of load_users() -----\n')
 
@@ -109,7 +109,7 @@ if fresh == True:
 def index():
     #Get recommended movies
     id = math.ceil(random.random() * 200)
-    print(id)
+    print(f'random movie_id: {id}')
     recommendations = movie.recommendations(movie_id=id)
     #print(recommendations)
     movies = []
@@ -121,7 +121,7 @@ def index():
         print('index: No one is logged in.')
     else:
         print(f'index: { PseudoSession.current_username } is logged in.')
-    return render_template('index.html', username=PseudoSession.current_username)
+    return render_template('index.html', username=PseudoSession.current_username, titles=movies)
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
@@ -129,16 +129,18 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    print("----- inside login route -----")
     # show login form
     form = LoginForm()
     if form.validate_on_submit():
-        user_id = User.user_to_id_map.get(form.username.data, ErrorMsg.bad_login)
-        if (user_id == ErrorMsg.bad_login):
-            flash(ErrorMsg.bad_login, 'error')
-            return redirect(url_for('login'))
-        else:
-            if (User.id_to_user_map.get(user_id)[2] == form.password.data):
-                username = User.id_to_user_map.get(user_id)[0]
+        try:
+            user_id = User.user_to_id_map[form.username.data]
+            print(f'username: {form.username.data}\nuser_id: {str(user_id)}')
+            print(f'User.id_to_user_map[str(user_id)]["password"]: {User.id_to_user_map[str(user_id)]["password"]}')
+            print(f'form password: {form.password.data}')
+            print(f'User.id_to_user_map[str(user_id)]["password"] == form.password.data: {User.id_to_user_map[str(user_id)]["password"] == form.password.data}')
+            if (User.id_to_user_map[str(user_id)]["password"] == form.password.data):
+                username = User.id_to_user_map[str(user_id)]["username"]
                 PseudoSession.current_username = username
                 PseudoSession.current_user_id = user_id
                 PseudoSession.is_authenticated = True
@@ -148,6 +150,9 @@ def login():
             else:
                 flash(ErrorMsg.bad_login, 'error')
                 return redirect(url_for('login'))
+        except KeyError:
+            flash(ErrorMsg.bad_login, 'error')
+            return redirect(url_for('login'))
 
     return render_template('login.html', form=form)
 
@@ -162,7 +167,7 @@ def logout():
 def view_profile(name):
     for x in user_info:
         print("name=" + x['name'])
-        if x['name'] == name.lower():
+        if x["name"] == name.lower():
             return render_template('view_profile.html', user=x)
     return render_template("error.html")
 
@@ -188,7 +193,7 @@ def edit_profile(username):
     else:
         for x in data:
             print("name=" + x['username'])
-            if x['username'] == name.lower():
+            if x["username"] == name.lower():
                 print(f'{username} wanted to edit their profile.')
                 return render_template('edit_profile.html', user=x)
         # return render_template("error.html")
@@ -199,9 +204,16 @@ def search():
 
 @app.route("/favorites/<username>")
 def favorites(username):
-    if is_authenticated():
+    if authenticate():
         user_id = User.user_to_id_map[username]
         favorites = Movie.user_favorites[user_id]
+        f1 = json.dumps(favorites)
+        f2 = json.loads(f1)
+        print(f'-- type offavorites to send: {type(f2)}')
+        print(f'-- favorites to send: {f2}')
+        return render_template('user_favorites.html', user=username, favorites=f2)
+    else:
+        return redirect(url_for('login'))
 
 ## end of routes ##
 
