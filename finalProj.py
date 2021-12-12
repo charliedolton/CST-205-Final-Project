@@ -205,13 +205,13 @@ def search():
 @app.route("/favorites/<username>")
 def favorites(username):
     if authenticate():
-        user_id = User.user_to_id_map[username]
-        favorites = Movie.user_favorites[user_id]
-        f1 = json.dumps(favorites)
-        f2 = json.loads(f1)
-        print(f'-- type offavorites to send: {type(f2)}')
-        print(f'-- favorites to send: {f2}')
-        return render_template('user_favorites.html', user=username, favorites=f2)
+        user_id = User.user_to_id_map[str(username)]
+        favorites = Movie.user_favorites[str(user_id)]
+        # f1 = json.dumps(favorites)
+        # f2 = json.loads(f1)
+        # print(f'-- type offavorites to send: {type(f2)}')
+        # print(f'-- favorites to send: {f2}')
+        return render_template('user_favorites.html', user=username, favorites=favorites)
     else:
         return redirect(url_for('login'))
 
