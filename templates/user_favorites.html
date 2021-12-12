@@ -22,6 +22,7 @@
                                 {% endif %}
                             class="card-img-top w-50" alt="image for {{ movie.title }}">
                     <div class="card-body">
+                        <p hidden>{{ movie.movie_id }}</p>
                         <h5 class="card-title">{{ movie.title }} ({{ movie.release_date }})</h5>
                         <p class="card-text">{{ movie.overview }}</p>
                     </div>
