@@ -1,6 +1,6 @@
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, SelectField, TextAreaField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
 from tmdbv3api import TMDb
@@ -10,7 +10,6 @@ from ErrorMsg import ErrorMsg
 import json
 from tmdbv3api import Movie
 import requests, random, math
-
 from user_info import user_info
 # from PIL import Image
 # from image_info import image_info
@@ -41,6 +40,11 @@ class LoginForm(FlaskForm):
     username = StringField( 'Username', validators=[DataRequired()] )
     password = PasswordField( 'Password', validators=[DataRequired()] )
 ## end of site forms ##
+
+class ProfileForm(FlaskForm):
+    username = StringField( 'username', validators=[DataRequired()] )
+    kind = SelectField( 'kind', choices=("Critic", "Audience") )
+    about_me = TextAreaField( 'about_me', validators=[DataRequired()] )
 
 ## pseudo db methods using json ##
 def load_users():
@@ -145,14 +149,33 @@ def view_profile(name):
             return render_template('view_profile.html', user=x)
     return render_template("error.html")
 
-@app.route("/profile_edit/<name>")
+@app.route("/profile_edit/<name>", methods=['GET', 'POST'])
 def edit_profile(name):
-    #print(name)
-    for x in user_info:
-        print("name=" + x['name'])
-        if x['name'] == name.lower():
-            return render_template('edit_profile.html', user=x)
-    return render_template("error.html")
+    form = ProfileForm()
+    print(form.validate_on_submit())
+    if form.validate_on_submit():
+        user_id = User.user_to_id_map.get(form.username.data, ErrorMsg.bad_login)
+        print("The ID is")
+        print(user_id)
+        if (user_id == ErrorMsg.bad_login):
+            flash(ErrorMsg.bad_login, 'error')
+            return redirect(url_for('login'))
+        else:
+            #modify the form
+            with open("id_to_user.json", "w+") as read_file:
+                data = json.load(read_file)
+                data[User.user_to_id_map.get(form.name.data, ErrorMsg.bad_login)] = {
+                    "kind" : form.kind,
+                    "about" : form.about_me,
+                    "favorites" : data[form.name].favorites
+                }
+                print(form.name.data)
+                #json.dump(data)
+    else:
+        for x in user_info:
+            if x['name'] == name.lower():
+                return render_template('edit_profile.html', user=x, form=form)
+        return render_template("error.html")
   
 @app.route("/search")
 def search():
