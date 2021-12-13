@@ -14,6 +14,7 @@
         {% if username != None %}
             <h2>hello {{ username }}!</h2>
             <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('favorites', username=username) }}">Favorites</a>
         {% else %}
             <br>
             <a href="{{ url_for('login') }}">Login</a>

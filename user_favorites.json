@@ -1,18 +1,18 @@
 {
     "9999": [
         {
-            "movie_id": "196",
+            "movie_id": 196,
             "title": "Back to the Future Part III",
             "overview": "The final installment of the Back to the Future trilogy finds Marty digging the trusty DeLorean out of a mineshaft and looking for Doc in the Wild West of 1885. But when their time machine breaks down, the travelers are stranded in a land of spurs. More problems arise when Doc falls for pretty schoolteacher Clara Clayton, and Marty tangles with Buford Tannen.",
             "release_date":"1990-25-05",
-            "img_url":null
+            "img_url":"https://image.tmdb.org/t/p/original/crzoVQnMzIrRfHtQw0tLBirNfVg.jpg"
         },
         {
-            "movie_id": "787",
+            "movie_id": 787,
             "title": "Mr. & Mrs. Smith",
             "overview": "After five (or six) years of vanilla-wedded bliss, ordinary suburbanites John and Jane Smith are stuck in a huge rut. Unbeknownst to each other, they are both coolly lethal, highly-paid assassins working for rival organisations. When they discover they're each other's next target, their secret lives collide in a spicy, explosive mix of wicked comedy, pent-up passion, nonstop action and high-tech weaponry.",
             "release_date":"2005-06-07",
-            "img_url":null
+            "img_url":"https://image.tmdb.org/t/p/original/wzIO3ytxeSNt1wRpXLIdkNbGoDm.jpg"
         }
     ]
 }

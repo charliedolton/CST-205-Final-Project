@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Movie Social</title>
+        {{ bootstrap.load_css() }}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+<body>
+    <header>
+        <h1>{{ user }}'s Favorites</h1>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('index') }}">Home</a>
+    </header>
+    <div class="main">
+        {% block content %}
+        {% if favorites|length > 0 %}
+            {% for movie in favorites %}
+                <div class="card flex-row mb-4">
+                    <img src={% if movie.img_url != None %}
+                                    "{{ movie.img_url }}"
+                                {% else %}
+                                    "/static/images/image-placeholder.png"
+                                {% endif %}
+                            class="card-img-top w-25" alt="image for {{ movie.title }}">
+                    <div class="card-body">
+                        <p hidden>{{ movie.movie_id }}</p>
+                        <h5 class="card-title">{{ movie.title }} ({{ movie.release_date }})</h5>
+                        <p class="card-text">{{ movie.overview }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user }} has no favorites yet.</h5>
+                </div>
+            </div>
+        {% endif %}
+        {% endblock %}
+    </div>
+
+    
+
+    {% include "footer.html" %}
+</body>
+</html>
