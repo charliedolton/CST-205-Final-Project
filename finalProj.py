@@ -36,15 +36,28 @@ base_img_url = 'https://image.tmdb.org/t/p/original'
 
 movie = Movie()
 
+username_field = "You should not be seeing this"
+kind_field = "You should not be seeing this"
+about_me_field = "You should not be seeing this"
+
+def get_username():
+    return username_field
+
+def get_kind():
+    return kind_field
+
+def get_info():
+    return about_me_field
+
 ## site forms ##
 class LoginForm(FlaskForm):
     username = StringField( 'Username', validators=[DataRequired()] )
     password = PasswordField( 'Password', validators=[DataRequired()] )
 
-class ProfileForm(FlaskForm):
-    username = StringField( 'Username', validators=[DataRequired()] )
-    kind = StringField( 'Username', validators=[DataRequired()] )
-    about_me = StringField( 'Username', validators=[DataRequired()] )
+#class ProfileForm(FlaskForm):
+#    username = StringField( 'Username', default = username_field, validators=[DataRequired()] )
+#    kind = StringField( 'Username', default = kind_field, validators=[DataRequired()] )
+#    about_me = StringField( 'Username', validators=[DataRequired()] )
 
 class SignupForm(FlaskForm):
     username = StringField( 'Username', validators=[DataRequired()] )
@@ -52,9 +65,12 @@ class SignupForm(FlaskForm):
 ## end of site forms ##
 
 class ProfileForm(FlaskForm):
-    username = StringField( 'username', validators=[DataRequired()] )
-    kind = SelectField( 'kind', choices=("Critic", "Audience") )
-    about_me = TextAreaField( 'about_me', validators=[DataRequired()] )
+    #print(get_username)
+    username = StringField( 'username', default = get_username, validators=[DataRequired()] )
+    #print(get_kind)
+    kind = SelectField( 'kind', default = get_kind, choices=("Critic", "Audience", "Test") )
+    #print(get_info)
+    about_me = TextAreaField( 'about_me', default = get_info, validators=[DataRequired()] )
 
 ## pseudo db methods using json ##
 def load_users():
@@ -177,7 +193,7 @@ def edit_profile(name):
     form = ProfileForm()
     print(form.validate_on_submit())
     if form.validate_on_submit():
-        user_id = User.user_to_id_map.get(form.username.data, ErrorMsg.bad_login)
+        user_id = Database.user_to_id_map[form.username.data]
         print("The ID is")
         print(user_id)
         if (user_id == ErrorMsg.bad_login):
@@ -197,7 +213,15 @@ def edit_profile(name):
     else:
         for x in user_info:
             if x['name'] == name.lower():
-                return render_template('edit_profile.html', user=x, form=form)
+                #print(name)
+                global username_field
+                username_field = name
+                global kind_field
+                kind_field = x['kind']
+                global about_me_field
+                about_me_field = x['about']
+
+                return render_template('edit_profile.html', user=x, form=ProfileForm())
         return render_template("error.html")
   
 @app.route("/search")

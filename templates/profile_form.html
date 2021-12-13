@@ -8,11 +8,7 @@
         <tr>
             <td><label for="kind">Account type:</label></td>
             <td>
-                <select id="kind" name="kind">
-                    <option value="critic" {% if user['kind'] == 'Critic' %} selected {% endif %}>Critic</option>
-                    <option value="audience" {% if user['kind'] == 'Audience' %} selected {% endif %}>Audience</option>  
-                    <option value="test" {% if user['kind'] == 'default-kind' %} selected {% endif %}>Test</option>  
-                </select>
+                {{ form.kind() }}
             </td>
         </tr>
 
