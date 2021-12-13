@@ -62,6 +62,7 @@ class Config:
 ---
 - [markdown guide](https://www.markdownguide.org/cheat-sheet/)
 - [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction)
+- [The Flask Mega Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
 
 ### What we'd change:
 ---
