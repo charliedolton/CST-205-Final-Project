@@ -4,33 +4,35 @@ class MovieObj:
         "9999": {}
     }
 
-    def __init__(self, id, title, release_date, overview, img_url):
-        self.id
-        self.title = title
-        self.release_date = release_date
-        self.overview = overview
-        self.img_url = img_url
+    def __init__(self, m_id, m_title, m_release_date, m_overview, m_img_url):
+        self.info = dict(
+            movie_id = m_id,
+            title = m_title,
+            release_date = m_release_date,
+            overview = m_overview,
+            img_url = m_img_url
+        )
 
     def get_id(self):
-        return self.id
+        return self.info["Movie_id"]
 
     def get_str_id(self):
-        return str(self.id)
+        return str(self.info["Movie_id"])
 
     def get_title(self):
-        return self.title
+        return self.info["title"]
 
     def get_release_date(self):
-        return self.release_date
+        return self.info["release_date"]
 
     def get_overview(self):
-        return self.overview
+        return self.info["overview"]
 
     def get_img_url(self):
-        return self.img_url
+        return self.info["img_url"]
 
     def print_info(self):
-        print(f'   id: {self.id}\n    title: {self.title}\n   release year: {self.release_date}\n   overview: {self.overview}')
+        print(f'   id: {self.info["Movie_id"]}\n    title: {self.info["title"]}\n   release year: {self.info["release_date"]}\n   overview: {self.info["overview"]}')
 
     def add_newUser(str_user_id):
         Movie.user_favorites[str_user_id] = {}

@@ -3,21 +3,16 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
-from tmdbv3api import TMDb
+from tmdbv3api import TMDb, Movie
 from config import Config
 from user import User
 from movie import MovieObj
 from error_msg import ErrorMsg
 from pseudo_session import PseudoSession
 import json
-import pprint
-from tmdbv3api import Movie
 import requests, random, math
 
 from user_info import user_info
-# from PIL import Image
-# from image_info import image_info
-# import random
 
 # for windows:
 # $env:FLASK_APP="finalProj.py"
@@ -36,6 +31,7 @@ tmdb = TMDb()
 tmdb.api_key = Config.api_key
 tmdb.language = 'en'
 tmdb.debug = True
+base_img_url = 'https://image.tmdb.org/t/p/original'
 
 movie = Movie()
 
@@ -206,12 +202,20 @@ def search():
 def favorites(username):
     if authenticate():
         user_id = User.user_to_id_map[username]
-        favorites = Movie.user_favorites[user_id]
-        print(f'-- type of favorites to send: {type(favorites)}')
-        print(f'-- favorites to send: {favorites}')
+        try:
+            favorites = Movie.user_favorites[user_id]
+            print(f'-- type of favorites to send: {type(favorites)}')
+            print(f'-- favorites to send: {favorites}')
+        except KeyError:
+            Movie.user_favorites[user_id] = []
+            favorites = Movie.user_favorites[user_id]
         return render_template('user_favorites.html', user=username, favorites=favorites)
     else:
         return redirect(url_for('login'))
+
+@app.route("/favorites/<username>/add/<movie_id>", methods=["POST"])
+def add_favorite(username, movie_id):
+    
 
 ## end of routes ##
 
