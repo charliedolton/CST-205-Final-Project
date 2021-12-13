@@ -1,5 +1,7 @@
+from database import Database
+
 class User:
-    ids = 0
+    ids = Database.get_num_users()
     # id_to_user_map = {
         # "9999": {
         #     "username": "test-user",
@@ -14,8 +16,6 @@ class User:
     #     # username: user_id
     #     "test-user": "9999"
     # }
-    id_to_user_map = {}
-    user_to_id_map = {}
 
     def __init__(self, username, email, password, icon_url):
         self.username = username
@@ -27,8 +27,8 @@ class User:
         else:
             User.ids += 1
             self.id = User.ids
-        User.id_to_user_map[str(self.id)] = [self.username, self.email, self.password, self.icon_url]
-        User.user_to_id_map[self.username] = self.id
+        Database.id_to_user_map[str(self.id)] = [self.username, self.email, self.password, self.icon_url]
+        Database.user_to_id_map[self.username] = self.id
     
     def get_id(self):
         return self.id
@@ -44,13 +44,3 @@ class User:
 
     def get_password(self):
         return self.password
-
-    def get_user_to_id_map():
-        return User.user_to_id_map
-
-    def get_id_to_user_map():
-        return User.id_to_user_map
-
-    def add_user(newUser):
-        User.id_to_user_map[newUser.get_str_id()] = [newUser.get_username(), newUser.get_email(), newUser.get_password()]
-        User.user_to_id_map[newUser.get_username()] = newUser.get_id()
