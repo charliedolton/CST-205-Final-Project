@@ -1,4 +1,4 @@
-class Movie:
+class MovieObj:
 
     user_favorites = {
         "0000": ["12", "26", "69"]

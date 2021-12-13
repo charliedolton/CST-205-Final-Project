@@ -5,7 +5,8 @@ from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
 from tmdbv3api import TMDb
 from config import Config
-from User import User
+from user import User
+from movie import MovieObj
 from ErrorMsg import ErrorMsg
 import json
 from tmdbv3api import Movie
@@ -112,26 +113,29 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    print("----- inside login route -----")
     # show login form
     form = LoginForm()
     if form.validate_on_submit():
-        user_id = User.user_to_id_map.get(form.username.data, ErrorMsg.bad_login)
-        if (user_id == ErrorMsg.bad_login):
-            flash(ErrorMsg.bad_login, 'error')
-            return redirect(url_for('login'))
-        else:
-            if (User.id_to_user_map.get(user_id)[2] == form.password.data):
-                username = User.id_to_user_map.get(user_id)[0]
-                User.current_username = username
-                User.current_user_id = user_id
-                User.is_authenticated = True
-
-                print(f'/user/auth: username: {User.current_username}\n')
+        try:
+            user_id = User.user_to_id_map[form.username.data]
+            print(f'username: {form.username.data}\nuser_id: {str(user_id)}')
+            print(f'User.id_to_user_map[str(user_id)][\'password\']: {User.id_to_user_map[str(user_id)]["password"]}')
+            print(f'form password: {form.password.data}')
+            print(f'User.id_to_user_map[str(user_id)][\'password\'] == form.password.data: {User.id_to_user_map[str(user_id)]["password"] == form.password.data}')
+            if (User.id_to_user_map[str(user_id)]['password'] == form.password.data):
+                username = User.id_to_user_map[str(user_id)]['username']
+                PseudoSession.current_username = username
+                PseudoSession.current_user_id = user_id
+                PseudoSession.is_authenticated = True
+                print(f'/user/auth: username: {PseudoSession.current_username}\n')
                 return redirect(url_for('index'))
             else:
                 flash(ErrorMsg.bad_login, 'error')
                 return redirect(url_for('login'))
-
+        except KeyError:
+            flash(ErrorMsg.bad_login, 'error')
+            return redirect(url_for('login'))
     return render_template('login.html', form=form)
 
 @app.route('/logout')
