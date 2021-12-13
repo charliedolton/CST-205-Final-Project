@@ -15,13 +15,13 @@
         {% block content %}
         {% if favorites|length > 0 %}
             {% for movie in favorites %}
-                <div class="card flex-row">
-                    <img src={% if movie.img_url == None %}
+                <div class="card flex-row mb-4">
+                    <img src={% if movie.img_url != None %}
                                     "{{ movie.img_url }}"
                                 {% else %}
                                     "/static/images/image-placeholder.png"
                                 {% endif %}
-                            class="card-img-top w-50" alt="image for {{ movie.title }}">
+                            class="card-img-top w-25" alt="image for {{ movie.title }}">
                     <div class="card-body">
                         <p hidden>{{ movie.movie_id }}</p>
                         <h5 class="card-title">{{ movie.title }} ({{ movie.release_date }})</h5>
