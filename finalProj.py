@@ -150,6 +150,7 @@ def login():
     print("----- inside login route -----")
     # show login form
     form = LoginForm()
+    print(form.validate_on_submit())
     if form.validate_on_submit():
         try:
             user_id = Database.user_to_id_map[form.username.data]
@@ -201,15 +202,24 @@ def edit_profile(name):
             return redirect(url_for('login'))
         else:
             #modify the form
-            with open("id_to_user.json", "w+") as read_file:
-                data = json.load(read_file)
-                data[User.user_to_id_map.get(form.name.data, ErrorMsg.bad_login)] = {
-                    "kind" : form.kind,
-                    "about" : form.about_me,
-                    "favorites" : data[form.name].favorites
-                }
-                print(form.name.data)
-                #json.dump(data)
+            a_file = open("id_to_user.json", "r")
+            data = json.load(a_file)
+            a_file.close()
+
+            #with open("id_to_user.json", "r+") as read_file:
+            #    data = json.load(read_file)
+
+            data[get_user_id(form.username.data)]['kind'] = form.kind.data
+            data[get_user_id(form.username.data)]["about"] = form.about_me.data
+
+
+            a_file = open("id_to_user.json", "w")
+            json.dump(data, a_file)
+            a_file.close()
+
+            #json.dump(data, read_file)
+
+            return render_template('index.html')
     else:
         for x in user_info:
             if x['name'] == name.lower():
@@ -257,8 +267,8 @@ def add_favorite(username, movie_id):
 ## internal APIs ##
     def add_newUser(newUser):
         if isinstance(newUser, User) and newUser.get_username() not in user_to_id_map.keys(): 
-            id_to_user_map[newUser.get_str_id()] = [newUser.get_username(), newUser.get_email(), newUser.get_password()]
-            user_to_id_map[newUser.get_username()] = newUser.get_id()
+            Database.id_to_user_map[newUser.get_str_id()] = [newUser.get_username(), newUser.get_email(), newUser.get_password()]
+            Database.user_to_id_map[newUser.get_username()] = newUser.get_id()
             Movie.user_favorites[newUser.get_str_id()] = {}
             return True
         else:
@@ -282,5 +292,5 @@ def authenticate():
     return PseudoSession.is_authenticated
 
 def get_user_id(username):
-    return User.user_to_id_map[username]
+    return Database.user_to_id_map[username]
 ## end internal APIs ##

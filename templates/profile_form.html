@@ -1,4 +1,5 @@
 <form method="POST" action="/profile_edit/{{user['name']}}">
+    {{ form.hidden_tag() }}
     <table>
         <tr>
             <td><label for="username">Username:</label></td>
