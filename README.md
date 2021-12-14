@@ -63,6 +63,8 @@ class Config:
 - [markdown guide](https://www.markdownguide.org/cheat-sheet/)
 - [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction)
 - [The Flask Mega Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
+- [W3Schools: Python JSON](https://www.w3schools.com/python/python_json.asp)
+  - [Kite: update a json file](https://www.kite.com/python/answers/how-to-update-a-json-file-in-python)
 
 ### What we'd change:
 ---
