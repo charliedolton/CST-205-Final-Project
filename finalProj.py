@@ -72,6 +72,14 @@ class ProfileForm(FlaskForm):
     #print(get_info)
     about_me = TextAreaField( 'about_me', default = get_info, validators=[DataRequired()] )
 
+class ReviewForm(FlaskForm):
+    #print(get_username)
+    username = StringField( 'username', default = get_username, validators=[DataRequired()] )
+    #print(get_kind)
+    rating = SelectField( 'rating', default = 3, choices=(1,2,3,4,5) )
+    #print(get_info)
+    text = TextAreaField( 'text', default = "Write text here", validators=[DataRequired()] )
+
 ## pseudo db methods using json ##
 def load_users():
     # print('----- load_users() -----')
@@ -110,10 +118,10 @@ def write_db():
 if fresh == True:
     load_users()
     print('----- db check -----')
-    print(f'User.user_to_id_map:\n{Database.user_to_id_map}')
-    print(f'User.id_to_user_map:\n{Database.id_to_user_map}')
-    print(f'Movie.user_favorites:\n{Database.user_favorites}')
-    print('----- end of db check -----\n')
+    #print(f'User.user_to_id_map:\n{Database.user_to_id_map}')
+    #print(f'User.id_to_user_map:\n{Database.id_to_user_map}')
+    #print(f'Movie.user_favorites:\n{Database.user_favorites}')
+    #print('----- end of db check -----\n')
 
     ## pseudo session variables ##
     PseudoSession.current_username = None
@@ -132,7 +140,7 @@ def index():
     #print(recommendations)
     movies = []
     for a in range(3):
-        movies.append((recommendations[a]))
+        movies.append(recommendations[a])
 
     # splash page? or general list of movies
     if authenticate() is False:
@@ -272,31 +280,69 @@ def reviews(movie_id):
     a_file.close()
     
     return render_template("reviews.html", reviews=data, movie=m)
+
+@app.route("/write_review/<movie_id>", methods=['GET','POST'])
+def write_review(movie_id):
+    form = ReviewForm()
+    if form.validate_on_submit():
+        user_id = Database.user_to_id_map[form.username.data]
+        print("The ID is")
+        print(user_id)
+        if (user_id == ErrorMsg.bad_login):
+            flash(ErrorMsg.bad_login, 'error')
+            return redirect(url_for('login'))
+        else:
+            #modify the form
+            a_file = open("storage/reviews/" + movie_id + ".json", "r")
+            data = json.load(a_file)
+            a_file.close()
+
+            review = {
+                "user": PseudoSession.current_username,
+                "kind": "Critic",
+                "text": form.text.data,
+                "score": form.rating.data
+            }
+
+            data.insert(len(data),review)
+
+            a_file = open("storage/reviews/" + movie_id + ".json", "w")
+            json.dump(data, a_file)
+            a_file.close()
+
+            #json.dump(data, read_file)
+
+            return render_template('index.html')
+    else:
+        m = movie.details(movie_id)
+        global username_field
+        username_field = PseudoSession.current_username
+        return render_template("write_review.html", form=ReviewForm(), movie_id=movie_id, movie=m, user=PseudoSession.current_username)
 ## end of routes ##
 
 ## internal APIs ##
-    def add_newUser(newUser):
-        if isinstance(newUser, User) and newUser.get_username() not in user_to_id_map.keys(): 
-            Database.id_to_user_map[newUser.get_str_id()] = [newUser.get_username(), newUser.get_email(), newUser.get_password()]
-            Database.user_to_id_map[newUser.get_username()] = newUser.get_id()
-            Movie.user_favorites[newUser.get_str_id()] = {}
-            return True
-        else:
-            return False
+def add_newUser(newUser):
+    if isinstance(newUser, User) and newUser.get_username() not in user_to_id_map.keys(): 
+        Database.id_to_user_map[newUser.get_str_id()] = [newUser.get_username(), newUser.get_email(), newUser.get_password()]
+        Database.user_to_id_map[newUser.get_username()] = newUser.get_id()
+        Movie.user_favorites[newUser.get_str_id()] = {}
+        return True
+    else:
+        return False
 
-    def add_favorite(str_user_id, movieObj):
-        # tuple = (movieObj.get_id(), movieObj.get_title(), movieObj.get_overview(), movieObj.get_release_date())
-        if isinstance(movieObj, MovieObj):
-            # user_favorites[str_user_id][movieObj.get_str_id()] = {
-            #     "title": movieObj.get_title(),
-            #     "overview": movieObj.get_overview(),
-            #     "release_date": movieObj.get_release_date(),
-            #     "img_url": movieObj.get_img_url()
-            # }
-            user_favorites[str_user_id][movieObj.get_str_id()] = movieObj.get_info()
-            return True
-        else:
-            return False
+def add_favorite(str_user_id, movieObj):
+    # tuple = (movieObj.get_id(), movieObj.get_title(), movieObj.get_overview(), movieObj.get_release_date())
+    if isinstance(movieObj, MovieObj):
+        # user_favorites[str_user_id][movieObj.get_str_id()] = {
+        #     "title": movieObj.get_title(),
+        #     "overview": movieObj.get_overview(),
+        #     "release_date": movieObj.get_release_date(),
+        #     "img_url": movieObj.get_img_url()
+        # }
+        user_favorites[str_user_id][movieObj.get_str_id()] = movieObj.get_info()
+        return True
+    else:
+        return False
 
 def authenticate():
     return PseudoSession.is_authenticated

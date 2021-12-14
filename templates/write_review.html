@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Movie Social</title>
+        {{ bootstrap.load_css() }}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+<body>
+    <header>
+        <h1>Review <i>{{movie.title}}</i>:</h1>
+    </header>
+
+    {% include "review_form.html" %}
+
+    {% include "footer.html" %}
+</body>
+</html>

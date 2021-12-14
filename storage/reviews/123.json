@@ -1,14 +1,1 @@
-[
-    {
-      "user" : "notflix",
-      "kind" : "Audience",
-      "text" : "Worst movie ever",
-      "score" : 1
-    },
-    {
-      "user" : "seymorskinner",
-      "kind" : "Critic",
-      "text" : "Best movie ever",
-      "score" : 5
-    }
-]
+[{"user": "notflix", "kind": "Audience", "text": "Worst movie ever", "score": 1}, {"user": "seymorskinner", "kind": "Critic", "text": "Best movie ever", "score": 5}, {"user": "seymorskinner", "kind": "Critic", "text": "Write text here", "score": "3"}]

@@ -1,0 +1,27 @@
+<form method="POST" action="/write_review/{{movie_id}}">
+    {{ form.hidden_tag() }}
+    <table>
+        <tr>
+            <td><label for="username">Username:</label></td>
+            <td>{{ form.username(size=50) }}</td>
+        </tr>
+
+        <tr>
+            <td><label for="rating">Rating:</label></td>
+            <td>
+                {{ form.rating() }}
+            </td>
+        </tr>
+
+        <tr>
+            <td><label for="text">Text:</label></td>
+            <td>{{ form.text() }}
+                <!--textarea name="about_me" rows="10" cols="30">{{user['about']}}</textarea-->
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Submit"></td>
+        </tr>
+    </table>
+</form>
