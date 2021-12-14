@@ -5,11 +5,10 @@ review_info = [
     "text" : "Worst movie ever",
     "score" : 1
   },
-  {
-    "id" : 543
+  '543': {
     "user" : "SeymorSkinner",
     "kind" : "Critic",
     "text" : "They should not have retconned the camel's story",
     "score" : 3
-  },
+  }
 ]

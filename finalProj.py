@@ -262,6 +262,16 @@ def add_favorite(username, movie_id):
             return "Favorite added."
         else:
             return "Favorite not added"
+
+@app.route("/reviews/<movie_id>")
+def reviews(movie_id):
+    m = movie.details(movie_id)
+
+    a_file = open("storage/reviews/" + movie_id + ".json", "r")
+    data = json.load(a_file)
+    a_file.close()
+    
+    return render_template("reviews.html", reviews=data, movie=m)
 ## end of routes ##
 
 ## internal APIs ##

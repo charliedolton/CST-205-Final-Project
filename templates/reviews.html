@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Movie Social</title>
+        {{ bootstrap.load_css() }}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+<body>
+    <header>
+        <h1>{{ user }}'s Favorites</h1>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('index') }}">Home</a>
+    </header>
+    <div class="main">
+        {% block content %}
+
+        <div class="card flex-row mb-4">
+            <div class="card-body">
+                <p hidden>{{ movie.movie_id }}</p>
+                <h5 class="card-title">{{ movie.title }} ({{ movie.release_date }})</h5>
+                <p class="card-text">{{ movie.overview }}</p>
+            </div>
+        </div>
+        {% if reviews|length > 0 %}
+            {% for review in reviews %}
+                <div class="card flex-row mb-4">
+                    <div class="card-body">
+                        <p>{{ review['user'] }}</p>
+                        <h5 class="card-title">({{ review['score'] }}) {{ review['text'] }}</h5>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user }} has no reviews yet.</h5>
+                </div>
+            </div>
+        {% endif %}
+        {% endblock %}
+    </div>
+
+    
+
+    {% include "footer.html" %}
+</body>
+</html>
