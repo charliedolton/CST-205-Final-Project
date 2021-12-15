@@ -63,3 +63,27 @@ for id in user_favorites:
     for m in user_favorites[id]:
         print("-----")
         m.print_info()
+## -------------------------------------------------------------
+
+import json
+
+user_favs = {
+  '9999': {
+    '196': {
+      'title': 'Back to the Future Part III',
+      'overview': 'The final installment of the Back to the Future trilogy finds Marty digging the trusty DeLorean out of a mineshaft and looking for Doc in the Wild West of 1885. But when their time machine breaks down, the travelers are stranded in a land of spurs. More problems arise when Doc falls for pretty schoolteacher Clara Clayton, and Marty tangles with Buford Tannen.',
+      'release_date':'05/25/1990',
+      'img_url': None}
+  }
+}
+print(f'type(user_favs): {type(user_favs)}\n\n')
+print(f'user_favs: {user_favs}\n\n')
+
+for x in user_favs:
+  for movie_id in user_favs[x]:
+    movie1 = json.dumps(user_favs[x][movie_id], indent=4)
+    movie2 = json.loads(movie1)
+    print(f'movie2: {movie2}\n\n')
+    print(f'title: {movie2["title"]}\n\n')
+    print(f'overview: {movie2["overview"]}\n\n')
+    print(f'release_date: {movie2["release_date"]}')
