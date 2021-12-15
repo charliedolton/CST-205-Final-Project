@@ -136,7 +136,7 @@ def index():
     print(f'random movie_id: {id}')
     recommendations = movie.recommendations(movie_id=id)
     movies = []
-
+   
     #pick three
     for a in range(3):
         movies.append(recommendations[a])
@@ -160,7 +160,7 @@ def login():
     print(form.validate_on_submit())
     if form.validate_on_submit():
         try:
-            #Get user info
+                        #Get user info
             user_id = Database.user_to_id_map[form.username.data]
             #print(f'username: {form.username.data}\nuser_id: {str(user_id)}')
             #print(f'Database.id_to_user_map[str(user_id)]["password"]: {Database.id_to_user_map[str(user_id)]["password"]}')
@@ -184,7 +184,7 @@ def login():
             #Invalid login
             flash(ErrorMsg.bad_login, 'error')
             return redirect(url_for('login'))
-    
+
     #If all else fails
     return render_template('login.html', form=form)
 
@@ -284,6 +284,7 @@ def add_favorite(username, movie_id):
         else:
             return "Favorite not added"
 
+
 #See one movie on its own page with reviews
 @app.route("/movie/<movie_id>")
 def reviews(movie_id):
@@ -340,10 +341,10 @@ def write_review(movie_id):
 
 ## internal APIs ##
 def add_newUser(newUser):
-    if isinstance(newUser, User) and newUser.get_username() not in user_to_id_map.keys(): 
+    if isinstance(newUser, User) and newUser.get_username() not in Database.user_to_id_map.keys(): 
         Database.id_to_user_map[newUser.get_str_id()] = [newUser.get_username(), newUser.get_email(), newUser.get_password()]
         Database.user_to_id_map[newUser.get_username()] = newUser.get_id()
-        Movie.user_favorites[newUser.get_str_id()] = {}
+        Database.user_favorites[newUser.get_str_id()] = {}
         return True
     else:
         return False
@@ -351,13 +352,13 @@ def add_newUser(newUser):
 def add_favorite(str_user_id, movieObj):
     # tuple = (movieObj.get_id(), movieObj.get_title(), movieObj.get_overview(), movieObj.get_release_date())
     if isinstance(movieObj, MovieObj):
-        # user_favorites[str_user_id][movieObj.get_str_id()] = {
-        #     "title": movieObj.get_title(),
-        #     "overview": movieObj.get_overview(),
-        #     "release_date": movieObj.get_release_date(),
-        #     "img_url": movieObj.get_img_url()
-        # }
-        user_favorites[str_user_id][movieObj.get_str_id()] = movieObj.get_info()
+        Database.user_favorites[str_user_id][movieObj.get_str_id()] = {
+            "title": movieObj.get_title(),
+            "overview": movieObj.get_overview(),
+            "release_date": movieObj.get_release_date(),
+            "img_url": movieObj.get_img_url()
+        }
+        Database.user_favorites[str_user_id][movieObj.get_str_id()] = movieObj.get_info()
         return True
     else:
         return False

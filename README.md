@@ -6,6 +6,7 @@
 - [Barbara Kondo](https://github.com/bKondo)
 - [Charlie Dolton](https://github.com/charliedolton)
 - [Daniel Kufer](https://github.com/lizardgai4)
+- [Aaqib Seliya](https://github.com/akiseliya)
 
 ### Description:
 ---
