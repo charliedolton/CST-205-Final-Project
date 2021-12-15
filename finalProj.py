@@ -271,7 +271,7 @@ def add_favorite(username, movie_id):
         else:
             return "Favorite not added"
 
-@app.route("/reviews/<movie_id>")
+@app.route("/movie/<movie_id>")
 def reviews(movie_id):
     m = movie.details(movie_id)
 
