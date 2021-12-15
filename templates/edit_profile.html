@@ -7,8 +7,15 @@
     </head>
 <body>
     <header>
-        <h1>Edit Profile:</h1>
+        <div class="d-flex justify-content-between">
+            <h1>Edit Profile:</h1>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
     </header>
+
+    {% with name=user['name'] %}
+        {% include "nav.html"%}
+    {% endwith %}
 
     {% include "profile_form.html" %}
 

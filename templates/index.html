@@ -7,24 +7,47 @@
     </head>
 <body>
     <header>
-        <h1>testing for connection:</h1>
+        <div class="d-flex justify-content-between">
+            <h1>Movie Social Homepage:</h1>
+            <div>
+                {% block content %}
+                {% if username != None %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                {% endif %}
+                {% endblock %}
+            </div>
+        </div>
     </header>
+    
+    <nav>
+        {% with name=username %}
+            {% include "nav.html"%}
+        {% endwith %}
+    </nav>
+
     <div class="main">
-        {% block content %}
         {% if username != None %}
             <h2>hello {{ username }}!</h2>
-            <a href="{{ url_for('logout') }}">Logout</a>
-            <a href="{{ url_for('favorites', username=username) }}">Favorites</a>
-        {% else %}
-            <br>
-            <a href="{{ url_for('login') }}">Login</a>
         {% endif %}
-        {% endblock %}
+
+        
+        {% for title in titles %}
+        <div class="d-flex mb-4 align-items-center">
+            <img class="w-25" src="{{base_img_url}}{{title.poster_path}}" alt="poster for {{ title.title }}">
+            <div class="d-flex flex-column">
+                <p class="p-4">Title: {{title.title}}, ({{title.id}}), ({{title.release_date}}), ({{title.overview}})</p>
+                {% if username != None %}
+                <a href="{{ url_for('add_favorite', username=username, movie_id=title.id) }}" class="btn btn-primary">add to favorites</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        
     </div>
 
-    {% for title in titles %}
-    <p>{{title.title}}, ({{title.id}}), ({{title.release_date}}), ({{title.overview}})</p>
-    {% endfor %}
+    
 
     {% include "footer.html" %}
 </body>

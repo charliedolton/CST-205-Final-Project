@@ -11,4 +11,10 @@ user_info = [
     "about" : "\"It's a classic, that's what it is.\"",
     "favorites" : ["2", "3", "5", "8"]
   },
+  {
+    "name" : "test-user",
+    "kind" : "Audience",
+    "about" : "I am a test user in user_info.py",
+    "favorites" : []
+  }
 ]

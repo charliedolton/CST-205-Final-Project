@@ -1,7 +1,7 @@
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, SelectField, TextAreaField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, EqualTo
 from flask_bootstrap import Bootstrap
 from tmdbv3api import TMDb
 from config import Config
@@ -59,7 +59,9 @@ class LoginForm(FlaskForm):
 
 class SignupForm(FlaskForm):
     username = StringField( 'Username', validators=[DataRequired()] )
-    password = PasswordField( 'Password', validators=[DataRequired()] )
+    password = PasswordField( 'Password', validators=[DataRequired(),
+                                                        EqualTo('confirm', message='Passwords must match.')] )
+    confirm = PasswordField( 'Confirm Password', validators=[DataRequired()])
 
 class ProfileForm(FlaskForm):
     #print(get_username)
@@ -137,8 +139,8 @@ def index():
     recommendations = movie.recommendations(movie_id=id)
     movies = []
    
-    #pick three
-    for a in range(3):
+    #provide movie recommendations to homepage
+    for a in range(len(recommendations)):
         movies.append(recommendations[a])
 
     # splash page? or general list of movies
@@ -146,11 +148,19 @@ def index():
         print('index: No one is logged in.')
     else:
         print(f'index: { PseudoSession.current_username } is logged in.')
-    return render_template('index.html', username=PseudoSession.current_username, titles=movies)
+    return render_template('index.html', username=PseudoSession.current_username, titles=movies, base_img_url=base_img_url)
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
-    return render_template('signup.html')
+    form = SignupForm()
+    if form.validate_on_submit():
+        newUser = User(form.username, None, form.password, None)
+        if add_newUser(newUser):
+            return render_template('login.html')
+        else:
+            flash(ErrorMsg.user_taken, 'error')
+            return redirect(url_for('signup'))
+    return render_template('signup.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -234,6 +244,7 @@ def edit_profile(name):
             a_file = open("id_to_user.json", "w")
             json.dump(data, a_file)
             a_file.close()
+            load_users()
 
             return render_template('index.html')
     else:
@@ -279,9 +290,9 @@ def add_favorite(username, movie_id):
         m = movie.details(movie_id)
         movieObj = MovieObj(m["id"], m["title"], m["release_date"], m["overview"], base_img_url + m["poster_path"])
         if Database.add_favorite(PseudoSession.current_user_id, movieObj):
-            return "Favorite added."
+            return redirect(url_for('favorites', username=PseudoSession.current_username))
         else:
-            return "Favorite not added"
+            return redirect(url_for('/'))
 
 
 #See one movie on its own page with reviews
@@ -344,6 +355,8 @@ def add_newUser(newUser):
         Database.id_to_user_map[newUser.get_str_id()] = [newUser.get_username(), newUser.get_email(), newUser.get_password()]
         Database.user_to_id_map[newUser.get_username()] = newUser.get_id()
         Database.user_favorites[newUser.get_str_id()] = {}
+        write_db()
+        load_users()
         return True
     else:
         return False
@@ -358,6 +371,8 @@ def add_favorite(str_user_id, movieObj):
             "img_url": movieObj.get_img_url()
         }
         Database.user_favorites[str_user_id][movieObj.get_str_id()] = movieObj.get_info()
+        write_db()
+        load_users()
         return True
     else:
         return False

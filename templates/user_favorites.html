@@ -7,10 +7,16 @@
     </head>
 <body>
     <header>
-        <h1>{{ user }}'s Favorites</h1>
-        <a href="{{ url_for('logout') }}">Logout</a>
-        <a href="{{ url_for('index') }}">Home</a>
+        <div class="d-flex justify-content-between">
+            <h1>{{ user }}'s Favorites</h1>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
     </header>
+
+    {% with name=username %}
+        {% include "nav.html"%}
+    {% endwith %}
+
     <div class="main">
         {% block content %}
         {% if favorites|length > 0 %}
