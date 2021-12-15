@@ -1,6 +1,6 @@
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, SelectField, TextAreaField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
 from tmdbv3api import TMDb
@@ -13,7 +13,6 @@ from pseudo_session import PseudoSession
 import json
 from tmdbv3api import Movie
 import requests, random, math
-
 from user_info import user_info
 
 # for windows:
@@ -35,21 +34,48 @@ tmdb.language = 'en'
 tmdb.debug = True
 base_img_url = 'https://image.tmdb.org/t/p/original'
 
+#Get an object for the movie API
 movie = Movie()
+
+#Gloal variables for passing variables into the ProfileForm
+username_field = "You should not be seeing this"
+kind_field = "You should not be seeing this"
+about_me_field = "You should not be seeing this"
+
+#Methods for the same reason as above
+def get_username():
+    return username_field
+
+def get_kind():
+    return kind_field
+
+def get_info():
+    return about_me_field
 
 ## site forms ##
 class LoginForm(FlaskForm):
     username = StringField( 'Username', validators=[DataRequired()] )
     password = PasswordField( 'Password', validators=[DataRequired()] )
 
-class ProfileForm(FlaskForm):
-    username = StringField( 'Username', validators=[DataRequired()] )
-    kind = StringField( 'Username', validators=[DataRequired()] )
-    about_me = StringField( 'Username', validators=[DataRequired()] )
-
 class SignupForm(FlaskForm):
     username = StringField( 'Username', validators=[DataRequired()] )
     password = PasswordField( 'Password', validators=[DataRequired()] )
+
+class ProfileForm(FlaskForm):
+    #print(get_username)
+    username = StringField( 'username', default = get_username, validators=[DataRequired()] )
+    #print(get_kind)
+    kind = SelectField( 'kind', default = get_kind, choices=("Critic", "Audience", "Test") )
+    #print(get_info)
+    about_me = TextAreaField( 'about_me', default = get_info, validators=[DataRequired()] )
+
+class ReviewForm(FlaskForm):
+    #print(get_username)
+    username = StringField( 'username', default = get_username, validators=[DataRequired()] )
+    #print(get_kind)
+    rating = SelectField( 'rating', default = 3, choices=(1,2,3,4,5) )
+    #print(get_info)
+    text = TextAreaField( 'text', default = "Write text here", validators=[DataRequired()] )
 ## end of site forms ##
 
 ## pseudo db methods using json ##
@@ -90,10 +116,10 @@ def write_db():
 if fresh == True:
     load_users()
     print('----- db check -----')
-    print(f'User.user_to_id_map:\n{Database.user_to_id_map}')
-    print(f'User.id_to_user_map:\n{Database.id_to_user_map}')
-    print(f'Movie.user_favorites:\n{Database.user_favorites}')
-    print('----- end of db check -----\n')
+    #print(f'User.user_to_id_map:\n{Database.user_to_id_map}')
+    #print(f'User.id_to_user_map:\n{Database.id_to_user_map}')
+    #print(f'Movie.user_favorites:\n{Database.user_favorites}')
+    #print('----- end of db check -----\n')
 
     ## pseudo session variables ##
     PseudoSession.current_username = None
@@ -105,14 +131,15 @@ if fresh == True:
 ## routes ##
 @app.route('/')
 def index():
-    #Get recommended movies
+    #Get recommended movies from a random one
     id = math.ceil(random.random() * 200)
     print(f'random movie_id: {id}')
     recommendations = movie.recommendations(movie_id=id)
-    #print(recommendations)
     movies = []
+
+    #pick three
     for a in range(3):
-        movies.append((recommendations[a]))
+        movies.append(recommendations[a])
 
     # splash page? or general list of movies
     if authenticate() is False:
@@ -130,13 +157,17 @@ def login():
     print("----- inside login route -----")
     # show login form
     form = LoginForm()
+    print(form.validate_on_submit())
     if form.validate_on_submit():
         try:
+            #Get user info
             user_id = Database.user_to_id_map[form.username.data]
-            print(f'username: {form.username.data}\nuser_id: {str(user_id)}')
-            print(f'Database.id_to_user_map[str(user_id)]["password"]: {Database.id_to_user_map[str(user_id)]["password"]}')
-            print(f'form password: {form.password.data}')
-            print(f'Database.id_to_user_map[str(user_id)]["password"] == form.password.data: {Database.id_to_user_map[str(user_id)]["password"] == form.password.data}')
+            #print(f'username: {form.username.data}\nuser_id: {str(user_id)}')
+            #print(f'Database.id_to_user_map[str(user_id)]["password"]: {Database.id_to_user_map[str(user_id)]["password"]}')
+            #print(f'form password: {form.password.data}')
+            #print(f'Database.id_to_user_map[str(user_id)]["password"] == form.password.data: {Database.id_to_user_map[str(user_id)]["password"] == form.password.data}')
+
+            #login successful
             if (Database.id_to_user_map[str(user_id)]["password"] == form.password.data):
                 username = Database.id_to_user_map[str(user_id)]["username"]
                 PseudoSession.current_username = username
@@ -146,12 +177,15 @@ def login():
                 print(f'/user/auth: username: {PseudoSession.current_username}\n')
                 return redirect(url_for('index'))
             else:
+                #login unsuccessful
                 flash(ErrorMsg.bad_login, 'error')
                 return redirect(url_for('login'))
         except KeyError:
+            #Invalid login
             flash(ErrorMsg.bad_login, 'error')
             return redirect(url_for('login'))
-
+    
+    #If all else fails
     return render_template('login.html', form=form)
 
 @app.route('/logout')
@@ -163,38 +197,62 @@ def logout():
 
 @app.route("/profile/<name>")
 def view_profile(name):
+    #Linear search for a user
     for x in user_info:
         print("name=" + x['name'])
         if x["name"] == name.lower():
             return render_template('view_profile.html', user=x)
+    #If not found, render an error
     return render_template("error.html")
 
-@app.route("/profile_edit/<username>", methods=['GET', 'POST'])
-def edit_profile(username):
+@app.route("/profile_edit/<name>", methods=['GET', 'POST'])
+def edit_profile(name):
     form = ProfileForm()
-    user_id = get_user_id(username)
-    if form.validate_on_submit:
-        #modify the form
-        with open("id_to_user.json", "r") as read_file:
-            data = json.load(read_file)
-            #data[form.name] = {
-                #"kind" : form.kind,
-                #"about" : form.about_me,
-            #}
-            print(f'data:\n{data}')
-            
-            #json.dump(data)
-            for x in data:
-                print(f'x= {x}')
-                print(data[f'{x}'])
-                return render_template('edit_profile.html', user=data[f'{x}'])
+    #print(form.validate_on_submit())
+
+    if form.validate_on_submit():
+        #For POST method
+        user_id = Database.user_to_id_map[form.username.data]
+
+        if (user_id == ErrorMsg.bad_login):
+            flash(ErrorMsg.bad_login, 'error')
+            return redirect(url_for('login'))
+        else:
+            #Open file to modify
+            a_file = open("id_to_user.json", "r")
+            data = json.load(a_file)
+            a_file.close()
+
+            #with open("id_to_user.json", "r+") as read_file:
+            #    data = json.load(read_file)
+
+            #modify the file
+            data[get_user_id(form.username.data)]['kind'] = form.kind.data
+            data[get_user_id(form.username.data)]["about"] = form.about_me.data
+
+            #Save modified file
+            a_file = open("id_to_user.json", "w")
+            json.dump(data, a_file)
+            a_file.close()
+
+            return render_template('index.html')
     else:
-        for x in data:
-            print("name=" + x['username'])
-            if x["username"] == name.lower():
-                print(f'{username} wanted to edit their profile.')
-                return render_template('edit_profile.html', user=x)
-        # return render_template("error.html")
+        #For non-POST
+        #Linear search for a user
+        for x in user_info:
+            if x['name'] == name.lower():
+                #Pass global variables to set defaults in a WTForm
+                global username_field
+                username_field = name
+                global kind_field
+                kind_field = x['kind']
+                global about_me_field
+                about_me_field = x['about']
+
+                #Make a new ProfileForm so the defaults show up properly
+                return render_template('edit_profile.html', user=x, form=ProfileForm())
+
+        return render_template("error.html")
   
 @app.route("/search")
 def search():
@@ -224,35 +282,88 @@ def add_favorite(username, movie_id):
             return "Favorite added."
         else:
             return "Favorite not added"
+
+#See one movie on its own page with reviews
+@app.route("/movie/<movie_id>")
+def reviews(movie_id):
+    #Get movie
+    m = movie.details(movie_id)
+
+    #Find reviews if any
+    a_file = open("storage/reviews/" + movie_id + ".json", "r")
+    data = json.load(a_file)
+    a_file.close()
+
+    return render_template("reviews.html", reviews=data, movie=m)
+
+@app.route("/write_review/<movie_id>", methods=['GET','POST'])
+def write_review(movie_id):
+    form = ReviewForm()
+    if form.validate_on_submit():
+        user_id = Database.user_to_id_map[form.username.data]
+        print("The ID is")
+        print(user_id)
+        if (user_id == ErrorMsg.bad_login):
+            flash(ErrorMsg.bad_login, 'error')
+            return redirect(url_for('login'))
+        else:
+            #Load file to modify
+            a_file = open("storage/reviews/" + movie_id + ".json", "r")
+            data = json.load(a_file)
+            a_file.close()
+
+            #Make a review to appent
+            review = {
+                "user": PseudoSession.current_username,
+                "kind": "Critic",
+                "text": form.text.data,
+                "score": form.rating.data
+            }
+
+            #Add the new revies
+            data.insert(len(data),review)
+
+            #Save and overwrite file
+            a_file = open("storage/reviews/" + movie_id + ".json", "w")
+            json.dump(data, a_file)
+            a_file.close()
+
+            return render_template('index.html')
+    else:
+        #Load the page to write a review
+        m = movie.details(movie_id)
+        global username_field
+        username_field = PseudoSession.current_username
+        return render_template("write_review.html", form=ReviewForm(), movie_id=movie_id, movie=m, user=PseudoSession.current_username)
 ## end of routes ##
 
 ## internal APIs ##
-    def add_newUser(newUser):
-        if isinstance(newUser, User) and newUser.get_username() not in user_to_id_map.keys(): 
-            id_to_user_map[newUser.get_str_id()] = [newUser.get_username(), newUser.get_email(), newUser.get_password()]
-            user_to_id_map[newUser.get_username()] = newUser.get_id()
-            Movie.user_favorites[newUser.get_str_id()] = {}
-            return True
-        else:
-            return False
+def add_newUser(newUser):
+    if isinstance(newUser, User) and newUser.get_username() not in user_to_id_map.keys(): 
+        Database.id_to_user_map[newUser.get_str_id()] = [newUser.get_username(), newUser.get_email(), newUser.get_password()]
+        Database.user_to_id_map[newUser.get_username()] = newUser.get_id()
+        Movie.user_favorites[newUser.get_str_id()] = {}
+        return True
+    else:
+        return False
 
-    def add_favorite(str_user_id, movieObj):
-        # tuple = (movieObj.get_id(), movieObj.get_title(), movieObj.get_overview(), movieObj.get_release_date())
-        if isinstance(movieObj, MovieObj):
-            # user_favorites[str_user_id][movieObj.get_str_id()] = {
-            #     "title": movieObj.get_title(),
-            #     "overview": movieObj.get_overview(),
-            #     "release_date": movieObj.get_release_date(),
-            #     "img_url": movieObj.get_img_url()
-            # }
-            user_favorites[str_user_id][movieObj.get_str_id()] = movieObj.get_info()
-            return True
-        else:
-            return False
+def add_favorite(str_user_id, movieObj):
+    # tuple = (movieObj.get_id(), movieObj.get_title(), movieObj.get_overview(), movieObj.get_release_date())
+    if isinstance(movieObj, MovieObj):
+        # user_favorites[str_user_id][movieObj.get_str_id()] = {
+        #     "title": movieObj.get_title(),
+        #     "overview": movieObj.get_overview(),
+        #     "release_date": movieObj.get_release_date(),
+        #     "img_url": movieObj.get_img_url()
+        # }
+        user_favorites[str_user_id][movieObj.get_str_id()] = movieObj.get_info()
+        return True
+    else:
+        return False
 
 def authenticate():
     return PseudoSession.is_authenticated
 
 def get_user_id(username):
-    return User.user_to_id_map[username]
+    return Database.user_to_id_map[username]
 ## end internal APIs ##
