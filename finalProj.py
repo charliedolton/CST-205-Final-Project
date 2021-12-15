@@ -197,11 +197,10 @@ def logout():
 
 @app.route("/profile/<name>")
 def view_profile(name):
-    #Linear search for a user
-    for x in user_info:
-        print("name=" + x['name'])
-        if x["name"] == name.lower():
-            return render_template('view_profile.html', user=x)
+    #Search for a user
+    x = Database.id_to_user_map[get_user_id(name)]
+    if x["username"] == name.lower():
+        return render_template('view_profile.html', user=x)
     #If not found, render an error
     return render_template("error.html")
 
@@ -238,19 +237,21 @@ def edit_profile(name):
             return render_template('index.html')
     else:
         #For non-POST
-        #Linear search for a user
-        for x in user_info:
-            if x['name'] == name.lower():
-                #Pass global variables to set defaults in a WTForm
-                global username_field
-                username_field = name
-                global kind_field
-                kind_field = x['kind']
-                global about_me_field
-                about_me_field = x['about']
+        #Search for a user
+        user_id = Database.user_to_id_map[name]
+        x = Database.id_to_user_map[str(user_id)]
+        print(x)
+        if x["username"] == name.lower():
+            #Pass global variables to set defaults in a WTForm
+            global username_field
+            username_field = name
+            global kind_field
+            kind_field = x['kind']
+            global about_me_field
+            about_me_field = x['about']
 
-                #Make a new ProfileForm so the defaults show up properly
-                return render_template('edit_profile.html', user=x, form=ProfileForm())
+            #Make a new ProfileForm so the defaults show up properly
+            return render_template('edit_profile.html', user=x, form=ProfileForm())
 
         return render_template("error.html")
   
