@@ -339,28 +339,28 @@ def write_review(movie_id):
 ## end of routes ##
 
 ## internal APIs ##
-    def add_newUser(newUser):
-        if isinstance(newUser, User) and newUser.get_username() not in Database.user_to_id_map.keys(): 
-            Database.id_to_user_map[newUser.get_str_id()] = [newUser.get_username(), newUser.get_email(), newUser.get_password()]
-            Database.user_to_id_map[newUser.get_username()] = newUser.get_id()
-            Database.user_favorites[newUser.get_str_id()] = {}
-            return True
-        else:
-            return False
+def add_newUser(newUser):
+    if isinstance(newUser, User) and newUser.get_username() not in Database.user_to_id_map.keys(): 
+        Database.id_to_user_map[newUser.get_str_id()] = [newUser.get_username(), newUser.get_email(), newUser.get_password()]
+        Database.user_to_id_map[newUser.get_username()] = newUser.get_id()
+        Database.user_favorites[newUser.get_str_id()] = {}
+        return True
+    else:
+        return False
 
-    def add_favorite(str_user_id, movieObj):
-        # tuple = (movieObj.get_id(), movieObj.get_title(), movieObj.get_overview(), movieObj.get_release_date())
-        if isinstance(movieObj, MovieObj):
-            Database.user_favorites[str_user_id][movieObj.get_str_id()] = {
-                "title": movieObj.get_title(),
-                "overview": movieObj.get_overview(),
-                "release_date": movieObj.get_release_date(),
-                "img_url": movieObj.get_img_url()
-            }
-            Database.user_favorites[str_user_id][movieObj.get_str_id()] = movieObj.get_info()
-            return True
-        else:
-            return False
+def add_favorite(str_user_id, movieObj):
+    # tuple = (movieObj.get_id(), movieObj.get_title(), movieObj.get_overview(), movieObj.get_release_date())
+    if isinstance(movieObj, MovieObj):
+        Database.user_favorites[str_user_id][movieObj.get_str_id()] = {
+            "title": movieObj.get_title(),
+            "overview": movieObj.get_overview(),
+            "release_date": movieObj.get_release_date(),
+            "img_url": movieObj.get_img_url()
+        }
+        Database.user_favorites[str_user_id][movieObj.get_str_id()] = movieObj.get_info()
+        return True
+    else:
+        return False
 
 def authenticate():
     return PseudoSession.is_authenticated
