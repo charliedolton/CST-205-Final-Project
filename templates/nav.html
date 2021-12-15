@@ -6,7 +6,7 @@
         {% if name != None %}
             <a id="profilePage" href="{{ url_for('view_profile', name=name) }}">Profile</a>
             <a id="favoritesPage" href="{{ url_for('favorites', username=name) }}">Favorites</a>
-        {% endif%}
+        {% endif %}
         
     </div>
 </nav>

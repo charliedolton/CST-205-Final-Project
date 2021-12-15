@@ -11,7 +11,7 @@
             <h1>Search for Movies</h1>
             <div>
                 {% block content %}
-                {% if username != None %}
+                {% if username is not none %}
                     <a href="{{ url_for('logout') }}">Logout</a>
                 {% else %}
                     <a href="{{ url_for('login') }}">Login</a>
@@ -21,7 +21,11 @@
         </div>
     </header>
 
-    {% include "nav.html" %}
+    <nav>
+        {% with name=username %}
+            {% include "nav.html"%}
+        {% endwith %}
+    </nav>
 
     <div id="search" class="main">
         <form>

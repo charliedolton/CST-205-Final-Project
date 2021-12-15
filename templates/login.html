@@ -12,7 +12,9 @@
         </header>
 
         <nav>
-            {% include "nav.html"%}
+            {% with name=None %}
+                {% include "nav.html"%}
+            {% endwith %}
         </nav>
 
         <div class="main">
