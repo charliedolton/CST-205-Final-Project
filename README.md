@@ -1,4 +1,5 @@
 ## CST-205-Final-Project: **The Movie Social**
+- Group 794
 - Due Thur. Dec. 16, 2021
 
 ### Members:
@@ -13,16 +14,24 @@
 This project uses Flask to create a webpage. The webpage itself uses The Movie Database API to retrieve and display movies the user searches for and can also add movies to a users favorites list. We chose to challenge ourselves by creating a mock database for user information and lists of movies, instead of using TMDb's api, Flask-Login, and Flask-Session.
 
 - [GitHub link](https://github.com/charliedolton/CST-205-Final-Project)
+- [Design Doc](https://docs.google.com/document/d/1Nvu_1FSIolBz-cQ35ItZUtLRtezXWrJweXjIKqPbO0E/edit?usp=sharing&resourcekey=0-GKhs52vyGuavIhP14LwiSw)
 - Coding languages:
     - Python
     - HTML
+    - JSON
 
 ### How to install and run:
 ---
 1. start your virtual environment (venv)
+    - create and start venv for macOS:
+        - `python3.9 -m venv venv`
+        - `source venv/bin/activate`
+    - create and start venv for Windows:
+        - `py -m venv venv`
+        - `.\venv\Scripts\Activate.ps1`
 
 2. install requirements
-    - for Mac/OS:
+    - for macOS:
         - `python -m pip install -r requirements.txt`
 
     - for Windows:
@@ -61,6 +70,9 @@ class Config:
 
 ### References:
 ---
+- [WTForms documentation](https://wtforms.readthedocs.io/en/2.3.x/fields/)
+- [Jinja documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/)
+- [pass variables through Jinja include statements](https://stackoverflow.com/questions/9404990/how-to-pass-selected-named-arguments-to-jinja2s-include-context)
 - [markdown guide](https://www.markdownguide.org/cheat-sheet/)
 - [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction)
 - [The Flask Mega Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
@@ -71,4 +83,9 @@ class Config:
 ---
 - connect to an actual database
     - that would have saved a lot of time and headaches
+    - add security checks
 - use more than basic forms
+- use the provided filters on movie listings to ensure everything is school acceptable
+  - thankfully, there were no large mishaps, just small easily scroll-pass ones
+- finish hooking up search page logic
+- finish hooking up review pages to main website
