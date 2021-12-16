@@ -60,6 +60,8 @@ class Config:
 
 ### References:
 ---
+- [WTForms documentation](https://wtforms.readthedocs.io/en/2.3.x/fields/)
+- [Jinja documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/)
 - [markdown guide](https://www.markdownguide.org/cheat-sheet/)
 - [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction)
 - [The Flask Mega Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
@@ -71,3 +73,6 @@ class Config:
 - connect to an actual database
     - that would have saved a lot of time and headaches
 - use more than basic forms
+- use the provided filters on movie listings to ensure everything is school acceptable
+  - thankfully, there were no large mishaps, just small easily scroll-pass ones
+- finish hooking up search page logic
