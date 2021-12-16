@@ -1,7 +1,6 @@
 from database import Database
 
 class User:
-    ids = Database.get_num_users()
     # id_to_user_map = {
         # "9999": {
         #     "username": "test-user",
@@ -25,8 +24,7 @@ class User:
         if (username == 'admin'):
             self.id = 0
         else:
-            User.ids += 1
-            self.id = User.ids
+            self.id = Database.get_num_users() + 1
     
     def get_id(self):
         return self.id
