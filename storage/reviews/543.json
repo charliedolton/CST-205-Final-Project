@@ -1,14 +1,1 @@
-[
-    {
-      "user" : "notflix",
-      "kind" : "Audience",
-      "text" : "The camel was greatly improved from the source material!",
-      "score" : 4
-    },
-    {
-      "user" : "SeymorSkinner",
-      "kind" : "Critic",
-      "text" : "They should not have retconned the camel's story",
-      "score" : 3
-    }
-  ]
+[{"user": "notflix", "kind": "Audience", "text": "The camel was greatly improved from the source material!", "score": 4}, {"user": "SeymorSkinner", "kind": "Critic", "text": "They should not have retconned the camel's story", "score": 3}, {"user": "notflix", "kind": "Critic", "text": "It was okay I guess, I never read the source material, so it was confusion.", "score": "3"}, {"user": null, "kind": "Critic", "text": "Let's use reviews to have a conversation with each other instead of using something made for chatting", "score": "2"}, {"user": null, "kind": "Critic", "text": "There's too much repetition, bored me to death.", "score": "1"}, {"user": null, "kind": "Critic", "text": "I don't care about reviewing, I will give this a 5", "score": "5"}, {"user": null, "kind": "Critic", "text": "supercalifragilisticexpialidocious", "score": "3"}, {"user": null, "kind": "Critic", "text": "supercalifragilisticexpialidocious", "score": "3"}]

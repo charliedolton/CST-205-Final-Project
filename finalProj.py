@@ -342,7 +342,7 @@ def write_review(movie_id):
             json.dump(data, a_file)
             a_file.close()
 
-            return render_template('index.html')
+            return render_template("reviews.html", movie = movie.details(movie_id), reviews=data)
     else:
         #Load the page to write a review
         m = movie.details(movie_id)
