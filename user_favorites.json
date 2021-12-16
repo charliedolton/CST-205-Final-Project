@@ -43,6 +43,20 @@
             "release_date": "2001-04-25",
             "overview": "At a tiny Parisian caf\u00e9, the adorable yet painfully shy Am\u00e9lie accidentally discovers a gift for helping others. Soon Amelie is spending her days as a matchmaker, guardian angel, and all-around do-gooder. But when she bumps into a handsome stranger, will she find the courage to become the star of her very own love story?",
             "img_url": "https://image.tmdb.org/t/p/original/oTKduWL2tpIKEmkAqF4mFEAWAsv.jpg"
+        },
+        {
+            "movie_id": 49051,
+            "title": "The Hobbit: An Unexpected Journey",
+            "release_date": "2012-11-26",
+            "overview": "Bilbo Baggins, a hobbit enjoying his quiet life, is swept into an epic quest by Gandalf the Grey and thirteen dwarves who seek to reclaim their mountain home from Smaug, the dragon.",
+            "img_url": "https://image.tmdb.org/t/p/original/yHA9Fc37VmpUA5UncTxxo3rTGVA.jpg"
+        },
+        {
+            "movie_id": 331,
+            "title": "Jurassic Park III",
+            "release_date": "2001-07-18",
+            "overview": "In need of funds for research, Dr. Alan Grant accepts a large sum of money to accompany Paul and Amanda Kirby on an aerial tour of the infamous Isla Sorna. It isn't long before all hell breaks loose and the stranded wayfarers must fight for survival as a host of new -- and even more deadly -- dinosaurs try to make snacks of them.",
+            "img_url": "https://image.tmdb.org/t/p/original/wQj9VSepvXmqha1XNtfdrgvqHdk.jpg"
         }
     ],
     "2": [
@@ -60,5 +74,5 @@
             "release_date": "1990-25-05",
             "img_url": "https://image.tmdb.org/t/p/original/crzoVQnMzIrRfHtQw0tLBirNfVg.jpg"
         }
-    ] 
+    ]
 }
