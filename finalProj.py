@@ -220,7 +220,7 @@ def logout():
 def view_profile(name):
     #Search for a user
     x = Database.id_to_user_map[get_user_id(name)]
-    if x["username"] == name.lower():
+    if x["username"] == name:
         return render_template('view_profile.html', user=x)
     #If not found, render an error
     return render_template("error.html")
