@@ -27,8 +27,6 @@ class User:
         else:
             User.ids += 1
             self.id = User.ids
-        Database.id_to_user_map[str(self.id)] = [self.username, self.email, self.password, self.icon_url]
-        Database.user_to_id_map[self.username] = self.id
     
     def get_id(self):
         return self.id
@@ -44,3 +42,6 @@ class User:
 
     def get_password(self):
         return self.password
+
+    def get_icon_url(self):
+        return self.icon_url

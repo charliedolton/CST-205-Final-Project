@@ -1,0 +1,17 @@
+<nav>
+    <div id="navDiv">
+        <p id="hidden-p" hidden>name passed: {{ name }}</p>
+        <a id="indexPage" href="{{ url_for('index') }}">Home</a>
+        <a id="searchPage" href="{{ url_for('search') }}">Search</a>
+        {% if name %}
+            <a id="profilePage" href="{{ url_for('view_profile', name=name) }}">Profile</a>
+            <a id="favoritesPage" href="{{ url_for('favorites', username=name) }}">Favorites</a>
+        {% endif %}
+        
+    </div>
+</nav>
+
+<script>
+    var hiddenP = document.getElementById("hidden-p").innerHTML;
+    console.log(hiddenP);
+</script>

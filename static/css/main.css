@@ -33,6 +33,32 @@ header {
     margin: 20px auto;
 }
 
+/* nav css */
+nav {
+background-color: #99948C;
+}
+
+#navDiv {
+display: flex;
+justify-content:space-evenly;
+width: 600px;
+margin: 0 auto;
+}
+
+a {
+text-decoration: none;
+color:#E4F0F7;
+padding: 5px
+}
+
+a:hover {
+text-decoration: none;
+color: #0071BC;
+}
+
+#signup-link {
+    color:#5A5752;
+}
 /* ===== footer css ===== */
 footer {
     text-align: center;

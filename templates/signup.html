@@ -7,10 +7,46 @@
     </head>
 <body>
     <header>
-        <h1>Make a new account:</h1>
+        <div class="d-flex justify-content-between">
+            <h1>Make a new account:</h1>
+            <a href="{{ url_for('login') }}">Login</a>
+        </div>
     </header>
 
-    {% include "profile_form.html" %}
+    <nav>
+        {% include "nav.html"%}
+    </nav>
+
+    <div class="main">
+        {% block content %}
+        <div class="container mb-4">
+            <div class="card mt-4">
+                <div class="card-body">
+                    <form method="POST" action="/signup">
+                        {{ form.hidden_tag() }}
+                        {{ form.username.label }}
+                        {{ form.username(size=50) }}
+                        <br>
+                        {{ form.password.label }}
+                        {{ form.password(size=50) }}
+                        <br>
+                        {{ form.confirm.label }}
+                        {{ form.confirm(size=50) }}
+                        <input type="submit" value="Submit">
+                    </form>
+                    {% with error_msg = get_flashed_messages() %}
+                    {% if error_msg %}
+                    <br>
+                    <div class="error-display">
+                        <p>{{ error_msg[0] }}</p>
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </div>
 
     {% include "footer.html" %}
 </body>

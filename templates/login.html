@@ -5,7 +5,18 @@
         {{ bootstrap.load_css() }}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     </head>
+
     <body>
+        <header>
+            <h1>Movie Social</h1>
+        </header>
+
+        <nav>
+            {% with name=None %}
+                {% include "nav.html"%}
+            {% endwith %}
+        </nav>
+
         <div class="main">
             {% block content %}
             <div class="container mb-4">
@@ -33,6 +44,9 @@
                 </div>
             </div>
             {% endblock %}
+            <div class="text-center">
+                <a id="signup-link" href="{{ url_for('signup') }}">Don't have an account? Signup!</a>
+            </div>
         </div>
         {% include "footer.html" %}
     </body>

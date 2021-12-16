@@ -1,7 +1,7 @@
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, SelectField, TextAreaField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, EqualTo
 from flask_bootstrap import Bootstrap
 from tmdbv3api import TMDb
 from config import Config
@@ -59,7 +59,9 @@ class LoginForm(FlaskForm):
 
 class SignupForm(FlaskForm):
     username = StringField( 'Username', validators=[DataRequired()] )
-    password = PasswordField( 'Password', validators=[DataRequired()] )
+    password = PasswordField( 'Password', validators=[DataRequired(),
+                                                        EqualTo('confirm', message='Passwords must match.')] )
+    confirm = PasswordField( 'Confirm Password', validators=[DataRequired()])
 
 class ProfileForm(FlaskForm):
     #print(get_username)
@@ -101,13 +103,13 @@ def load_users():
 def write_db():
     # https://realpython.com/lessons/serializing-json-data/
     with open('id_to_user.json', 'w') as write_file:
-        json.dump(Database.id_to_user_map, write_file)
+        json.dump(Database.id_to_user_map, write_file, indent=4)
         write_file.close()
     with open('user_to_id.json', 'w') as write_file:
-        json.dump(Database.user_to_id_map, write_file)
+        json.dump(Database.user_to_id_map, write_file, indent=4)
         write_file.close()
     with open('user_favorites.json', 'w') as write_file:
-        json.dump(Database.user_favorites, write_file)
+        json.dump(Database.user_favorites, write_file, indent=4)
         write_file.close()
 
 # write_db()
@@ -116,9 +118,10 @@ def write_db():
 if fresh == True:
     load_users()
     print('----- db check -----')
-    #print(f'User.user_to_id_map:\n{Database.user_to_id_map}')
-    #print(f'User.id_to_user_map:\n{Database.id_to_user_map}')
-    #print(f'Movie.user_favorites:\n{Database.user_favorites}')
+    print(f'User.user_to_id_map:\n{Database.user_to_id_map}')
+    print(f'User.id_to_user_map:\n{Database.id_to_user_map}')
+    print(f'Movie.user_favorites:\n{Database.user_favorites}')
+    print(Database.get_num_users())
     #print('----- end of db check -----\n')
 
     ## pseudo session variables ##
@@ -137,8 +140,8 @@ def index():
     recommendations = movie.recommendations(movie_id=id)
     movies = []
    
-    #pick three
-    for a in range(3):
+    #provide movie recommendations to homepage
+    for a in range(len(recommendations)):
         movies.append(recommendations[a])
 
     # splash page? or general list of movies
@@ -146,11 +149,20 @@ def index():
         print('index: No one is logged in.')
     else:
         print(f'index: { PseudoSession.current_username } is logged in.')
-    return render_template('index.html', username=PseudoSession.current_username, titles=movies)
+    return render_template('index.html', username=PseudoSession.current_username, titles=movies, base_img_url=base_img_url)
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
-    return render_template('signup.html')
+    form = SignupForm()
+    if form.validate_on_submit():
+        newUser = User(form.username.data, None, form.password.data, None)
+        if add_newUser(newUser):
+            form=LoginForm()
+            return render_template('login.html', form=form)
+        else:
+            flash(ErrorMsg.user_taken, 'error')
+            return redirect(url_for('signup'))
+    return render_template('signup.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -233,6 +245,7 @@ def edit_profile(name):
             a_file = open("id_to_user.json", "w")
             json.dump(data, a_file)
             a_file.close()
+            load_users()
 
             return render_template('index.html')
     else:
@@ -241,7 +254,7 @@ def edit_profile(name):
         user_id = Database.user_to_id_map[name]
         x = Database.id_to_user_map[str(user_id)]
         print(x)
-        if x["username"] == name.lower():
+        if x["username"] == name:
             #Pass global variables to set defaults in a WTForm
             global username_field
             username_field = name
@@ -257,7 +270,7 @@ def edit_profile(name):
   
 @app.route("/search")
 def search():
-    return render_template("search.html")
+    return render_template("search.html", username=PseudoSession.current_username)
 
 @app.route("/favorites/<username>")
 def favorites(username):
@@ -279,10 +292,9 @@ def add_favorite(username, movie_id):
     if authenticate():
         m = movie.details(movie_id)
         movieObj = MovieObj(m["id"], m["title"], m["release_date"], m["overview"], base_img_url + m["poster_path"])
-        if Database.add_favorite(PseudoSession.current_user_id, movieObj):
-            return "Favorite added."
-        else:
-            return "Favorite not added"
+        if add_favorite(PseudoSession.current_user_id, movieObj):
+            return redirect(url_for('favorites', username=PseudoSession.current_username))
+    return redirect(url_for('index'))
 
 
 #See one movie on its own page with reviews
@@ -341,10 +353,24 @@ def write_review(movie_id):
 
 ## internal APIs ##
 def add_newUser(newUser):
-    if isinstance(newUser, User) and newUser.get_username() not in Database.user_to_id_map.keys(): 
-        Database.id_to_user_map[newUser.get_str_id()] = [newUser.get_username(), newUser.get_email(), newUser.get_password()]
-        Database.user_to_id_map[newUser.get_username()] = newUser.get_id()
+    print("===== in add_newUser(newUser) =====")
+    print(f"    newUser.get_username(): {newUser.get_username()}")
+    print(f"    type(newUser): {type(newUser)}")
+    print(f"    Database.user_to_id_map.keys(): {Database.user_to_id_map.keys()}")
+    print(f"isinstance(newUser, User) and (newUser.get_username() not in Database.user_to_id_map.keys()): {isinstance(newUser, User) and (newUser.username not in Database.user_to_id_map.keys())}")
+    if isinstance(newUser, User) and (newUser.get_username() not in Database.user_to_id_map.keys()):
+        Database.id_to_user_map[newUser.get_str_id()] = {
+                "username": newUser.get_username(),
+                "email": newUser.get_email(),
+                "password": newUser.get_password(),
+                "iconUrl": newUser.get_icon_url(),
+                "kind": "Audience",
+                "about": "About the user."
+            }
+        Database.user_to_id_map[newUser.get_username()] = newUser.get_str_id()
         Database.user_favorites[newUser.get_str_id()] = {}
+        write_db()
+        load_users()
         return True
     else:
         return False
@@ -352,13 +378,9 @@ def add_newUser(newUser):
 def add_favorite(str_user_id, movieObj):
     # tuple = (movieObj.get_id(), movieObj.get_title(), movieObj.get_overview(), movieObj.get_release_date())
     if isinstance(movieObj, MovieObj):
-        Database.user_favorites[str_user_id][movieObj.get_str_id()] = {
-            "title": movieObj.get_title(),
-            "overview": movieObj.get_overview(),
-            "release_date": movieObj.get_release_date(),
-            "img_url": movieObj.get_img_url()
-        }
-        Database.user_favorites[str_user_id][movieObj.get_str_id()] = movieObj.get_info()
+        Database.user_favorites[str_user_id].append(movieObj.get_info())
+        write_db()
+        load_users()
         return True
     else:
         return False

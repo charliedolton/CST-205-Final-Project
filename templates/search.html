@@ -7,10 +7,27 @@
     </head>
 <body>
     <header>
-        <h1>Search for Movies</h1>
+        <div class="d-flex justify-content-between">
+            <h1>Search for Movies</h1>
+            <div>
+                {% block content %}
+                {% if username is not none %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                {% endif %}
+                {% endblock %}
+            </div>
+        </div>
     </header>
 
-    <div id="search">
+    <nav>
+        {% with name=username %}
+            {% include "nav.html"%}
+        {% endwith %}
+    </nav>
+
+    <div id="search" class="main">
         <form>
             Title: <input type="text" id="title">
             Director: <input type="text" id="director">

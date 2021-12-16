@@ -12,10 +12,10 @@ class MovieObj:
         )
 
     def get_id(self):
-        return self.info["Movie_id"]
+        return self.info["movie_id"]
 
     def get_str_id(self):
-        return str(self.info["Movie_id"])
+        return str(self.info["movie_id"])
 
     def get_title(self):
         return self.info["title"]
@@ -33,4 +33,4 @@ class MovieObj:
         return self.info
 
     def print_info(self):
-        print(f'   id: {self.info["Movie_id"]}\n    title: {self.info["title"]}\n   release year: {self.info["release_date"]}\n   overview: {self.info["overview"]}')
+        print(f'   id: {self.info["movie_id"]}\n    title: {self.info["title"]}\n   release year: {self.info["release_date"]}\n   overview: {self.info["overview"]}')

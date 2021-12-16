@@ -16,5 +16,11 @@ user_info = [
     "kind" : "Audience",
     "about" : "I don't know",
     "favorites" : ["12", "26", "69"]
+  },
+  {
+    "name" : "test-user",
+    "kind" : "Audience",
+    "about" : "I am a test user in user_info.py",
+    "favorites" : []
   }
 ]
