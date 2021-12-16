@@ -34,6 +34,13 @@
             "release_date": "2004-11-19",
             "overview": "When Sophie, a shy young woman, is cursed with an old body by a spiteful witch, her only chance of breaking the spell lies with a self-indulgent yet insecure young wizard and his companions in his legged, walking castle.",
             "img_url": "https://image.tmdb.org/t/p/original/TkTPELv4kC3u1lkloush8skOjE.jpg"
+        },
+        {
+            "movie_id": 154,
+            "title": "Star Trek II: The Wrath of Khan",
+            "release_date": "1982-06-04",
+            "overview": "It is the 23rd century. The Federation Starship U.S.S. Enterprise is on routine training maneuvers and Admiral James T. Kirk seems resigned to the fact that this inspection may well be the last space mission of his career. But Khan is back. Aided by his exiled band of genetic supermen, Khan - brilliant renegade of 20th century Earth - has raided Space Station Regula One, stolen a top secret device called Project Genesis, wrested control of another Federation Starship and sets out in pursuit of the Enterprise, determined to let nothing stand in the way of his mission: kill Admiral Kirk... even if it means universal Armageddon.",
+            "img_url": "https://image.tmdb.org/t/p/original/uPyLsKl8Z0LOoxeaFXsY5MxhR5s.jpg"
         }
     ],
     "7": [
@@ -73,6 +80,15 @@
             "overview": "The final installment of the Back to the Future trilogy finds Marty digging the trusty DeLorean out of a mineshaft and looking for Doc in the Wild West of 1885. But when their time machine breaks down, the travelers are stranded in a land of spurs. More problems arise when Doc falls for pretty schoolteacher Clara Clayton, and Marty tangles with Buford Tannen.",
             "release_date": "1990-25-05",
             "img_url": "https://image.tmdb.org/t/p/original/crzoVQnMzIrRfHtQw0tLBirNfVg.jpg"
+        }
+    ],
+    "8": [
+        {
+            "movie_id": 563,
+            "title": "Starship Troopers",
+            "release_date": "1997-11-07",
+            "overview": "Set in the future, the story follows a young soldier named Johnny Rico and his exploits in the Mobile Infantry. Rico's military career progresses from recruit to non-commissioned officer and finally to officer against the backdrop of an interstellar war between mankind and an arachnoid species known as \"the Bugs\".",
+            "img_url": "https://image.tmdb.org/t/p/original/cxCmv23O7p3hyHwqoktHYkZcGsY.jpg"
         }
     ]
 }
