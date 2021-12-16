@@ -118,10 +118,10 @@ def write_db():
 if fresh == True:
     load_users()
     print('----- db check -----')
-    print(f'User.user_to_id_map:\n{Database.user_to_id_map}')
-    print(f'User.id_to_user_map:\n{Database.id_to_user_map}')
-    print(f'Movie.user_favorites:\n{Database.user_favorites}')
-    print(Database.get_num_users())
+    # print(f'User.user_to_id_map:\n{Database.user_to_id_map}')
+    # print(f'User.id_to_user_map:\n{Database.id_to_user_map}')
+    # print(f'Movie.user_favorites:\n{Database.user_favorites}')
+    print(f'current number of users: {Database.get_num_users()}')
     #print('----- end of db check -----\n')
 
     ## pseudo session variables ##
@@ -278,8 +278,8 @@ def favorites(username):
         user_id = Database.user_to_id_map[username]
         try:
             favorites = Database.user_favorites[user_id]
-            print(f'-- type of favorites to send: {type(favorites)}')
-            print(f'-- favorites to send: {favorites}')
+            # print(f'-- type of favorites to send: {type(favorites)}')
+            # print(f'-- favorites to send: {favorites}')
         except KeyError:
             Database.user_favorites[user_id] = []
             favorites = MoDatabasevie.user_favorites[user_id]
