@@ -247,7 +247,7 @@ def edit_profile(name):
             a_file.close()
             load_users()
 
-            return render_template('index.html')
+            return render_template('view_profile.html', user=Database.id_to_user_map[get_user_id(name)])
     else:
         #For non-POST
         #Search for a user
