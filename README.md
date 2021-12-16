@@ -107,5 +107,7 @@ route logic was a group effort
 - connect to an actual database
     - that would have saved a lot of time and headaches
     - add security checks
+- fix [edit profile bug](https://github.com/charliedolton/CST-205-Final-Project/issues/2)
+    - edits get overwritten when user logs out. 
 - use more than basic forms
 - finish hooking up search page logic
