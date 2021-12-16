@@ -20,6 +20,45 @@
             "release_date": "2006-10-19",
             "overview": "A mysterious story of two magicians whose intense rivalry leads them on a life-long battle for supremacy -- full of obsession, deceit and jealousy with dangerous and deadly consequences.",
             "img_url": "https://image.tmdb.org/t/p/original/bdN3gXuIZYaJP7ftKK2sU0nPtEA.jpg"
+        },
+        {
+            "movie_id": 329,
+            "title": "Jurassic Park",
+            "release_date": "1993-06-11",
+            "overview": "A wealthy entrepreneur secretly creates a theme park featuring living dinosaurs drawn from prehistoric DNA. Before opening day, he invites a team of experts and his two eager grandchildren to experience the park and help calm anxious investors. However, the park is anything but amusing as the security systems go off-line and the dinosaurs escape.",
+            "img_url": "https://image.tmdb.org/t/p/original/oU7Oq2kFAAlGqbU4VoAE36g4hoI.jpg"
+        },
+        {
+            "movie_id": 4935,
+            "title": "Howl's Moving Castle",
+            "release_date": "2004-11-19",
+            "overview": "When Sophie, a shy young woman, is cursed with an old body by a spiteful witch, her only chance of breaking the spell lies with a self-indulgent yet insecure young wizard and his companions in his legged, walking castle.",
+            "img_url": "https://image.tmdb.org/t/p/original/TkTPELv4kC3u1lkloush8skOjE.jpg"
         }
-    ]
+    ],
+    "7": [
+        {
+            "movie_id": 194,
+            "title": "Am\u00e9lie",
+            "release_date": "2001-04-25",
+            "overview": "At a tiny Parisian caf\u00e9, the adorable yet painfully shy Am\u00e9lie accidentally discovers a gift for helping others. Soon Amelie is spending her days as a matchmaker, guardian angel, and all-around do-gooder. But when she bumps into a handsome stranger, will she find the courage to become the star of her very own love story?",
+            "img_url": "https://image.tmdb.org/t/p/original/oTKduWL2tpIKEmkAqF4mFEAWAsv.jpg"
+        }
+    ],
+    "2": [
+        {
+            "movie_id": 329,
+            "title": "Jurassic Park",
+            "release_date": "1993-06-11",
+            "overview": "A wealthy entrepreneur secretly creates a theme park featuring living dinosaurs drawn from prehistoric DNA. Before opening day, he invites a team of experts and his two eager grandchildren to experience the park and help calm anxious investors. However, the park is anything but amusing as the security systems go off-line and the dinosaurs escape.",
+            "img_url": "https://image.tmdb.org/t/p/original/oU7Oq2kFAAlGqbU4VoAE36g4hoI.jpg"
+        },
+        {
+            "movie_id": 196,
+            "title": "Back to the Future Part III",
+            "overview": "The final installment of the Back to the Future trilogy finds Marty digging the trusty DeLorean out of a mineshaft and looking for Doc in the Wild West of 1885. But when their time machine breaks down, the travelers are stranded in a land of spurs. More problems arise when Doc falls for pretty schoolteacher Clara Clayton, and Marty tangles with Buford Tannen.",
+            "release_date": "1990-25-05",
+            "img_url": "https://image.tmdb.org/t/p/original/crzoVQnMzIrRfHtQw0tLBirNfVg.jpg"
+        }
+    ] 
 }

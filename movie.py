@@ -3,11 +3,11 @@ from database import Database
 class MovieObj:
 
     def __init__(self, m_id, m_title, m_release_date, m_overview, m_img_url):
-            self.movie_id = m_id,
-            self.title = m_title,
-            self.release_date = m_release_date,
-            self.overview = m_overview,
-            self.img_url = m_img_url
+        self.movie_id = m_id,
+        self.title = m_title,
+        self.release_date = m_release_date,
+        self.overview = m_overview,
+        self.img_url = m_img_url
 
     def get_id(self):
         return self.movie_id

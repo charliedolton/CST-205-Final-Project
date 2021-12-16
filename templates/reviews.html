@@ -7,18 +7,32 @@
     </head>
 <body>
     <header>
-        <h1>The Movie Database</h1>
-        <a href="{{ url_for('logout') }}">Logout</a>
-        <a href="{{ url_for('index') }}">Home</a>
+        <div class="d-flex justify-content-between">
+            <h1>The Movie Database</h1>
+            <div>
+                {% if username != None %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                {% endif %}
+            </div>
+        </div>
     </header>
+
+    <nav>
+        {% with name=username %}
+            {% include "nav.html"%}
+        {% endwith %}
+    </nav>
+    
     <div class="main">
         {% block content %}
-
         <div class="card flex-row mb-4">
             <div class="card-body">
                 <p hidden>{{ movie.movie_id }}</p>
                 <h5 class="card-title">{{ movie.title }} ({{ movie.release_date }})</h5>
                 <p class="card-text">{{ movie.overview }}</p>
+                <a class="btn btn-primary" href="{{ url_for('write_review', movie_id=movie.id) }}">write review</a>
             </div>
         </div>
         {% if reviews|length > 0 %}
@@ -33,7 +47,7 @@
         {% else %}
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ user }} has no reviews yet.</h5>
+                    <h5 class="card-title">{{ movie.title }} has no reviews yet.</h5>
                 </div>
             </div>
         {% endif %}
