@@ -6,7 +6,8 @@ class Database:
     }
 
     def get_num_users():
-        return len(Database.id_to_user_map)
+        print(f"num of users: {len(Database.id_to_user_map.keys())}")
+        return len(Database.id_to_user_map.keys())
 
     def get_user_to_id_map():
         return Database.user_to_id_map

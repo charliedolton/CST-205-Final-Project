@@ -1,1 +1,50 @@
-{"9999": {"username": "test-user", "email": "testuser@email.com", "password": "test-pass", "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/", "about": "It's a classic, that's what it is.", "kind": "default-kind"}, "0": {"username": "admin", "email": "admin@email.com", "password": "admin", "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/", "about": "I'm an admin.", "kind": "Admin"}, "1": {"username": "seymorskinner", "email": "seymor@email.com", "password": "test-pass", "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/", "about": "seymor-bio-here", "kind": "Critic"}, "2": {"username": "elne", "email": "elne@email.com", "password": "test-pass", "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/", "about": "Elizabeth Nell from Board Game Social", "kind": "Audience"}, "3": {"username": "notflix", "email": "notflix@email.com", "password": "test-pass", "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/", "about": "I don't know, I watch movies a lot, really like Maya Cinemas in Salinas.  SOmething somethinG?", "kind": "Audience"}, "4": {"username": "someone", "email": "someone@email.com", "password": "test-pass", "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/", "about": "I don't know", "kind": "Audience"}}
+{
+    "9999": {
+        "username": "test-user",
+        "email": "testuser@email.com",
+        "password": "test-pass",
+        "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/",
+        "about": "It's a classic, that's what it is.",
+        "kind": "default-kind"
+    },
+    "0": {
+        "username": "admin",
+        "email": "admin@email.com",
+        "password": "admin",
+        "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/",
+        "about": "I'm an admin.",
+        "kind": "Admin"
+    },
+    "1": {
+        "username": "seymorskinner",
+        "email": "seymor@email.com",
+        "password": "test-pass",
+        "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/",
+        "about": "seymor-bio-here",
+        "kind": "Critic"
+    },
+    "2": {
+        "username": "elne",
+        "email": "elne@email.com",
+        "password": "test-pass",
+        "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/",
+        "about": "Elizabeth Nell from Board Game Social",
+        "kind": "Audience"
+    },
+    "3": {
+        "username": "notflix",
+        "email": "notflix@email.com",
+        "password": "test-pass",
+        "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/",
+        "about": "I don't know, I watch movies a lot, really like Maya Cinemas in Salinas.  SOmething somethinG?",
+        "kind": "Audience"
+    },
+    "4": {
+        "username": "someone",
+        "email": "someone@email.com",
+        "password": "test-pass",
+        "iconUrl": "https://www.pexels.com/photo/food-wood-people-school-3843284/",
+        "about": "I don't know",
+        "kind": "Audience"
+    }
+}
