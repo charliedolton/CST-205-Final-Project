@@ -1,6 +1,7 @@
 ## CST-205-Final-Project: **The Movie Social**
 - Group 794
 - Due Thur. Dec. 16, 2021
+    - [demo video](https://youtu.be/NEpdwB-gejI)
 
 ### Members:
 ---
