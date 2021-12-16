@@ -32,6 +32,7 @@
                         <p hidden>{{ movie.movie_id }}</p>
                         <h5 class="card-title">{{ movie.title }} ({{ movie.release_date }})</h5>
                         <p class="card-text">{{ movie.overview }}</p>
+                        <a class="btn btn-primary" href="{{ url_for('reviews', movie_id=movie.movie_id) }}">see reviews</a>
                     </div>
                 </div>
             {% endfor %}

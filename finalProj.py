@@ -1,3 +1,6 @@
+## 
+# GitHub link: https://github.com/charliedolton/CST-205-Final-Project
+##
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, SelectField, TextAreaField
@@ -118,10 +121,10 @@ def write_db():
 if fresh == True:
     load_users()
     print('----- db check -----')
-    print(f'User.user_to_id_map:\n{Database.user_to_id_map}')
-    print(f'User.id_to_user_map:\n{Database.id_to_user_map}')
-    print(f'Movie.user_favorites:\n{Database.user_favorites}')
-    print(Database.get_num_users())
+    # print(f'User.user_to_id_map:\n{Database.user_to_id_map}')
+    # print(f'User.id_to_user_map:\n{Database.id_to_user_map}')
+    # print(f'Movie.user_favorites:\n{Database.user_favorites}')
+    print(f'current number of users: {Database.get_num_users()}')
     #print('----- end of db check -----\n')
 
     ## pseudo session variables ##
@@ -136,13 +139,19 @@ if fresh == True:
 def index():
     #Get recommended movies from a random one
     id = math.ceil(random.random() * 200)
-    print(f'random movie_id: {id}')
-    recommendations = movie.recommendations(movie_id=id)
+    try:
+        print(f'random movie_id: {id}')
+        recommendations = movie.recommendations(movie_id=id)
+    except:
+        print(f'on except movie_id: 329')
+        recommendations = movie.recommendations(movie_id=329)
     movies = []
-   
+    
     #provide movie recommendations to homepage
     for a in range(len(recommendations)):
-        movies.append(recommendations[a])
+        # print(f'rec {a} title: {recommendations[a]["title"]}, adult: {recommendations[a]["adult"]}')
+        if recommendations[a]["adult"] == False:
+            movies.append(recommendations[a])
 
     # splash page? or general list of movies
     if authenticate() is False:
@@ -278,11 +287,11 @@ def favorites(username):
         user_id = Database.user_to_id_map[username]
         try:
             favorites = Database.user_favorites[user_id]
-            print(f'-- type of favorites to send: {type(favorites)}')
-            print(f'-- favorites to send: {favorites}')
+            # print(f'-- type of favorites to send: {type(favorites)}')
+            # print(f'-- favorites to send: {favorites}')
         except KeyError:
             Database.user_favorites[user_id] = []
-            favorites = MoDatabasevie.user_favorites[user_id]
+            favorites = Database.user_favorites[user_id]
         return render_template('user_favorites.html', user=username, favorites=favorites)
     else:
         return redirect(url_for('login'))
@@ -304,11 +313,14 @@ def reviews(movie_id):
     m = movie.details(movie_id)
 
     #Find reviews if any
-    a_file = open("storage/reviews/" + movie_id + ".json", "r")
-    data = json.load(a_file)
-    a_file.close()
+    try:
+        a_file = open("storage/reviews/" + movie_id + ".json", "r")
+        data = json.load(a_file)
+        a_file.close()
+    except FileNotFoundError:
+        data=[]
 
-    return render_template("reviews.html", reviews=data, movie=m)
+    return render_template("reviews.html", reviews=data, movie=m, username=PseudoSession.current_username)
 
 @app.route("/write_review/<movie_id>", methods=['GET','POST'])
 def write_review(movie_id):
@@ -322,9 +334,12 @@ def write_review(movie_id):
             return redirect(url_for('login'))
         else:
             #Load file to modify
-            a_file = open("storage/reviews/" + movie_id + ".json", "r")
-            data = json.load(a_file)
-            a_file.close()
+            try:
+                a_file = open("storage/reviews/" + movie_id + ".json", "r")
+                data = json.load(a_file)
+                a_file.close()
+            except FileNotFoundError:
+                data=[]
 
             #Make a review to appent
             review = {
@@ -342,7 +357,7 @@ def write_review(movie_id):
             json.dump(data, a_file)
             a_file.close()
 
-            return render_template("reviews.html", movie = movie.details(movie_id), reviews=data)
+            return render_template("reviews.html", movie = movie.details(movie_id), reviews=data, username=PseudoSession.current_username)
     else:
         #Load the page to write a review
         m = movie.details(movie_id)
@@ -368,7 +383,7 @@ def add_newUser(newUser):
                 "about": "About the user."
             }
         Database.user_to_id_map[newUser.get_username()] = newUser.get_str_id()
-        Database.user_favorites[newUser.get_str_id()] = {}
+        Database.user_favorites[newUser.get_str_id()] = []
         write_db()
         load_users()
         return True
@@ -376,9 +391,15 @@ def add_newUser(newUser):
         return False
 
 def add_favorite(str_user_id, movieObj):
-    # tuple = (movieObj.get_id(), movieObj.get_title(), movieObj.get_overview(), movieObj.get_release_date())
     if isinstance(movieObj, MovieObj):
-        Database.user_favorites[str_user_id].append(movieObj.get_info())
+        movieObj.print_info()
+        Database.user_favorites[str_user_id].append({
+            "movie_id": movieObj.get_id()[0],
+            "title": movieObj.get_title()[0],
+            "release_date": movieObj.get_release_date()[0],
+            "overview": movieObj.get_overview()[0],
+            "img_url": movieObj.get_img_url()
+        })
         write_db()
         load_users()
         return True

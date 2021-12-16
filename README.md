@@ -108,7 +108,4 @@ route logic was a group effort
     - that would have saved a lot of time and headaches
     - add security checks
 - use more than basic forms
-- use the provided filters on movie listings to ensure everything is school acceptable
-  - thankfully, there were no large mishaps, just small easily scroll-pass ones
 - finish hooking up search page logic
-- finish hooking up review pages to main website
