@@ -78,6 +78,29 @@ class Config:
 - [W3Schools: Python JSON](https://www.w3schools.com/python/python_json.asp)
   - [Kite: update a json file](https://www.kite.com/python/answers/how-to-update-a-json-file-in-python)
 
+### Final Work distribution:
+---
+route logic was a group effort
+
+- Daniel
+    - home page
+    - review pages (2)
+    - profile pages (2)
+    - basic API retrieval
+    - reviews JSON pseudo database
+    - dummy user data
+
+- Barbara
+    - home page
+    - login and signup pages
+    - favorites list page
+    - user and favorites JSON pseudo database
+    - nav bar
+
+- Charlie
+    - search page
+    - API documentation and key
+
 ### What we'd change:
 ---
 - connect to an actual database
