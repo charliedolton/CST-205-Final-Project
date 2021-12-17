@@ -81,6 +81,10 @@ class ReviewForm(FlaskForm):
     rating = SelectField( 'rating', default = 3, choices=(1,2,3,4,5) )
     #print(get_info)
     text = TextAreaField( 'text', default = "Write text here", validators=[DataRequired()] )
+    
+class SearchForm(FlaskForm):
+    title = StringField('title', validators=[DataRequired()])
+    year = StringField('year')
 ## end of site forms ##
 
 ## pseudo db methods using json ##
@@ -277,9 +281,23 @@ def edit_profile(name):
 
         return render_template("error.html")
   
-@app.route("/search")
+@app.route("/search", methods = ["GET", "POST"])
 def search():
-    return render_template("search.html", username=PseudoSession.current_username)
+    if request.method == "POST":
+        form = SearchForm()
+        if form.validate_on_submit():
+            searchTerms = {
+                "query" : form.title.data,
+                "year" : form.year.data,
+            }
+            print(searchTerms)
+            search = Search()
+            movie = search.movies(searchTerms)
+            movie_id = str(movie[0].id)
+            
+            return redirect("/movie/" + movie_id)
+    else:
+        return render_template("search.html", form=SearchForm(), username=PseudoSession.current_username)
 
 @app.route("/favorites/<username>")
 def favorites(username):
