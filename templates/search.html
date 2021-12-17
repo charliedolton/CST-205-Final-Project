@@ -28,16 +28,7 @@
     </nav>
 
     <div id="search" class="main">
-        <form>
-            Title: <input type="text" id="title">
-            Director: <input type="text" id="director">
-            Year from: <input type="number" id="yearStart">
-            Year to: <input type="number" id="yearEnd">
-            Genre: <input type="text" id="genre">
-            Description: <input type="text" id="description">
-            <br>
-            <input type="submit" value="Submit">
-        </form>
+         {% include "search_form.html" %}
     </div>
 
     {% include "footer.html" %}
