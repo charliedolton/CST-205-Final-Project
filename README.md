@@ -1,7 +1,7 @@
 ## CST-205-Final-Project: **The Movie Social**
 - Group 794
 - Due Thur. Dec. 16, 2021
-    - [demo video](https://youtu.be/NEpdwB-gejI)
+    - [demo video](https://youtu.be/DkjyhRt5fZI)
 
 ### Members:
 ---
@@ -111,4 +111,4 @@ route logic was a group effort
 - fix [edit profile bug](https://github.com/charliedolton/CST-205-Final-Project/issues/2)
     - edits get overwritten when user logs out. 
 - use more than basic forms
-- finish hooking up search page logic
+- add more filters to search page
