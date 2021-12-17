@@ -14,7 +14,7 @@ from database import Database
 from error_msg import ErrorMsg
 from pseudo_session import PseudoSession
 import json
-from tmdbv3api import Movie
+from tmdbv3api import Movie, Search
 import requests, random, math
 from user_info import user_info
 
